@@ -135,11 +135,7 @@ h6 {
 	flex-shrink: 1;
 }
 
-.block__iframe {
-	text-align: center;
-}
-
-
+/*
 .button {
 	transition: all 250ms ease-in-out;
 	display: inline-block;
@@ -169,9 +165,9 @@ h6 {
 	border-style: solid;
 	border-width: 10px 0 10px 14px;
 	border-color: transparent transparent transparent currentColor;
-}
+} */
 
-.lazy-load {
+/* .lazy-load {
 	cursor: pointer;
 	margin: 0 auto;
     max-width: 940px;
@@ -190,7 +186,7 @@ h6 {
 	margin-top: -26px;
 	margin-left: -24px;
 }
-
+ */
 
 
 

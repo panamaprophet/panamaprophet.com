@@ -37,7 +37,7 @@ const getPlayerUrlWithParams = (url, params) => {
 };
 
 
-const Player = ({url, width = 940, height, ...params}) => (
+const Player = ({url, width = '100%', height, ...params}) => (
     <iframe
         src={getPlayerUrlWithParams(url, params)}
         width={width}

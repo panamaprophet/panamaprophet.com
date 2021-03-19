@@ -16,19 +16,25 @@ const Section = ({
     description,
 }) => (
     <section>
-        {image && <Image
-            src={image}
-            alt={title}
-            layout="fixed"
-            width={IMAGE_DEFAULTS.width}
-            height={IMAGE_DEFAULTS.height}
-        />}
+        <div className={styles.info}>
+            {image && (<div className={styles.image}>
+                <Image
+                    src={image}
+                    alt={title}
+                    layout="fixed"
+                    width={IMAGE_DEFAULTS.width}
+                    height={IMAGE_DEFAULTS.height}
+                />
+            </div>)}
 
-        <h2 className={styles.title}>{title}</h2>
+            {title && <h2 className={styles.title}>{title}</h2>}
 
-        {player && <Player {...player} />}
+            {description && description.map((line, index) => <p key={index}>{line}</p>)}
+        </div>
 
-        {description && description.map((line, index) => <p key={index}>{line}</p>)}
+        {player && (<div className={styles.player}>
+            <Player {...player} />
+        </div>)}
     </section>
 );
 

@@ -55,13 +55,13 @@ const sections = [
         image: '/images/cover.jpg',
         title: 'P',
         description: [
-            'Рад представить вам мой новый альбом «P», в ра&shy;бо&shy;те над которым я выступил не только в роли ис&shy;пол&shy;ни&shy;теля, но и продюсера, весело орудуя кла&shy;ви&shy;ша&shy;ми, семплами, изолентой и клеем с ножницами.',
-            'Записывать и сводить материал помогали мои ста&shy;рые друзья - такие ребята, как Rebelsteppa, Tenor Youthman, Fayah Temple, General Culture, Дима Шиш&shy;кин, Аина и Алина, а обложку, как я уже говорил ра&shy;нее, нарисовал Лёха Бархан.',
+            'Рад представить вам мой новый альбом «P», в ра;бо;те над которым я выступил не только в роли ис;пол;ни;теля, но и продюсера, весело орудуя кла;ви;ша;ми, семплами, изолентой и клеем с ножницами.',
+            'Записывать и сводить материал помогали мои ста;рые друзья - такие ребята, как Rebelsteppa, Tenor Youthman, Fayah Temple, General Culture, Дима Шиш;кин, Аина и Алина, а обложку, как я уже говорил ра;нее, нарисовал Лёха Бархан.',
         ],
         player: {
             url: '//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/277798237',
             color: 'ff5500',
-            height: 468,
+            height: 528,
         },
     },
     {
@@ -70,24 +70,24 @@ const sections = [
             'Сняли с Алиной видео на песню «Мне нравится любитиь тебя» при помощи мобильного телефона и изрядной доли терпения',
             '//www.youtube.com/embed/rGfBQQomMf0?showinfo=0&amp;autoplay=1',
         ],
-    }
-]
+    },
+];
 
 
 export default function Home() {
     return (
-        <div className={styles.container}>
+        <div className={styles.root}>
             <Meta />
-            <main className={styles.main}>
-                <Header />
-                {sections && sections.map((section, index) => (<Section
-                    key={index}
-                    title={section.title}
-                    image={section.image}
-                    player={section.player}
-                    description={section.description}
-                />))}
-            </main>
+            <Header />
+
+            {sections && sections.map((section, index) => (<Section
+                key={index}
+                title={section.title}
+                image={section.image}
+                player={section.player}
+                description={section.description}
+            />))}
+
             <Footer />
         </div>
     )
