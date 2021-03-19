@@ -1,0 +1,66 @@
+.icon {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	border: 2px solid currentColor;
+	display: inline-block;
+	vertical-align: top;
+	line-height: 28px;
+	text-align: center;
+	color: #999;
+	margin: 0 2px;
+	transition: all 250ms ease-in-out;
+}
+
+.icon:before {
+	font-family: "fontello";
+	display: inline-block;
+	text-decoration: inherit;
+	text-align: center;
+	font-variant: normal;
+	text-transform: none;
+}
+
+.arrow {
+	width: 48px;
+	height: 48px;
+	display: block;
+	border: 2px solid #999;
+	border-radius: 50%;
+	z-index: 2;
+	text-align: center;
+	line-height: 46px;
+}
+
+.arrow:before {
+
+	-webkit-transform: rotate(-45deg);
+
+	   -moz-transform: rotate(-45deg);
+
+	    -ms-transform: rotate(-45deg);
+
+	        transform: rotate(-45deg);
+	-webkit-transform-origin: center center;
+	   -moz-transform-origin: center center;
+	    -ms-transform-origin: center center;
+	        transform-origin: center center;
+
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+
+	content: '';
+	border: 2px solid #999;
+	border-width: 0 0 2px 2px;
+}
+
+.youtube:before { content: '\f167'; }
+.vkontakte:before { content: '\f189'; }
+.soundcloud:before { content: '\f1be'; }
+.facebook:before { content: '\f30c'; }
+
+.youtube:hover { color: #cc181e; }
+.vkontakte:hover { color: #507299; }
+.facebook:hover { color: #3b5998; }
+.soundcloud:hover { color: #ff6300; }

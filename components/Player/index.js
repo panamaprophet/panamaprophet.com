@@ -1,5 +1,5 @@
 const DEFAULT_PLAYER_PARAMS = {
-    color: 113322,
+    color: '113322',
     auto_play: false,
     hide_related: true,
     show_comments: true,
@@ -37,8 +37,14 @@ const getPlayerUrlWithParams = (url, params) => {
 };
 
 
-const Player = ({url, ...params}) => (
-    <iframe src={getPlayerUrlWithParams(url, params)} />
+const Player = ({url, width = 940, height, ...params}) => (
+    <iframe
+        src={getPlayerUrlWithParams(url, params)}
+        width={width}
+        height={height}
+        frameBorder="0"
+    />
 );
+
 
 export default Player;

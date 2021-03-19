@@ -1,3 +1,6 @@
+import Icon from '../Icon';
+import styles from './Links.module.css';
+
 /**
  * @todo: change fb to instagram
  */
@@ -7,28 +10,28 @@ const Links = ({
     youtube,
     soundcloud,
  }) => (
-    <ul className="linkup">
-        {facebook && <li className="linkup__item">
+    <ul className={styles.container}>
+        {facebook && <li className={styles.link}>
             <a href={facebook} target="_blank">
-            <span className="icon icon--facebook"></span>
+                <Icon type="facebook" />
             </a>
         </li>}
 
-        {vkontakte && <li className="linkup__item">
+        {vkontakte && <li className={styles.link}>
             <a href={vkontakte} target="_blank">
-            <span className="icon icon--vkontakte"></span>
+                <Icon type="vkontakte" />
             </a>
         </li>}
 
-        {youtube && <li className="linkup__item">
+        {youtube && <li className={styles.link}>
             <a href={youtube} target="_blank">
-            <span className="icon icon--youtube"></span>
+                <Icon type="youtube" />
             </a>
         </li>}
 
-        {soundcloud && <li className="linkup__item">
+        {soundcloud && <li className={styles.link}>
             <a href={soundcloud} target="_blank">
-            <span className="icon icon--soundcloud"></span>
+                <Icon type="soundcloud" />
             </a>
         </li>}
     </ul>

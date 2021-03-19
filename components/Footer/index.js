@@ -1,17 +1,19 @@
 import Links from '../Links';
+import styles from './Footer.module.css';
 
 
 const Footer = () => (
     <footer>
-        <form action="#" method="post" className="subscription">
-            <input type="email" className="subscription__email" placeholder="E-mail" />
-            <button type="submit" className="subscription__submit">Подписаться</button>
-            <p className="subscription__description">
+        <form action="#" method="post" className={styles.subscription}>
+            <input type="email" className={styles.email} placeholder="E-mail" />
+            <button type="submit" className={styles.submit}>Подписаться</button>
+
+            <p className={styles.description}>
                 Чтобы первым узнавать о новой музыке, событиях и предстоящих мероприятиях, никакого спама!
             </p>
         </form>
 
-        <hr className="block__separator" />
+        <hr className={styles.separator} />
 
         <Links
             facebook="//facebook.com/panamaprophet"
