@@ -8,16 +8,25 @@
     text-align: left;
 }
 
-.image {
+.image,
+.video {
     float: left;
     margin-right: 60px;
 }
 
 .info {
+    display: flex;
     overflow: hidden;
     margin-bottom: 60px;
 }
 
 .player {
     margin-bottom: 100px;
+}
+
+.description {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    justify-content: center;
 }

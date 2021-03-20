@@ -3,15 +3,26 @@ import Header from '../components/Header';
 import Meta from '../components/Meta';
 import Footer from '../components/Footer';
 
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.css';
+
 
 /**
- * @TODO:
- * - switch to webp
+ * @todo: move it out of here
  */
-
-
 const sections = [
+    {
+        image: '/images/cover-lp.jpg',
+        title: 'LP',
+        description: [
+            'Материал для этого альбома семь лет добирался до сети из Малаховки, по пути побывав и в Израиле, и в Лесном городке,',
+            'но, как известно, у хорошей песни нет срока давности, и потому вашему вниманию — прекрасно настоявшийся рутс!',
+        ],
+        player: {
+            url: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1167232813',
+            height: 594,
+            color: '181818',
+        },
+    },
     {
         image: '/images/cover-garden.jpg',
         title: 'В моём саду',
@@ -67,26 +78,26 @@ const sections = [
     {
         title: 'Мне нравится любить тебя!',
         description: [
-            'Сняли с Алиной видео на песню «Мне нравится любитиь тебя» при помощи мобильного телефона и изрядной доли терпения',
-            '//www.youtube.com/embed/rGfBQQomMf0?showinfo=0&amp;autoplay=1',
+            'Сняли с Алиной видео на песню «Мне нравится любитиь тебя» при помощи мобильного телефона и изрядной доли терпения.',
+            'Оригинальный материал был утерян, превратившись в гифки, этот клип переснят за пятнадцать минут.',
         ],
+        video: {
+            url: '//www.youtube.com/embed/rGfBQQomMf0?showinfo=0&amp;autoplay=1',
+        },
     },
 ];
 
 
-export default function Home() {
+export default function Home({ mainId = 'main' }) {
     return (
         <div className={styles.root}>
             <Meta />
-            <Header />
 
-            {sections && sections.map((section, index) => (<Section
-                key={index}
-                title={section.title}
-                image={section.image}
-                player={section.player}
-                description={section.description}
-            />))}
+            <Header scrollTarget={mainId} />
+
+            <main id={mainId}>
+                {sections && sections.map((section, index) => (<Section key={index} {...section} />))}
+            </main>
 
             <Footer />
         </div>

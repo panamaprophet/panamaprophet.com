@@ -27,13 +27,14 @@ const getPlayerUrlParams = (props, params = DEFAULT_PLAYER_PARAMS) => {
         return {...result, [mappedKey]: props[key]};
     }, {});
 
-    return Object.entries({ ...params, ...mappedProps });
+    return { ...params, ...mappedProps };
 };
 
 const getPlayerUrlWithParams = (url, params) => {
-    const paramPairs = getPlayerUrlParams(params);
+    const urlParams = getPlayerUrlParams(params);
+    const urlParamsPairs = Object.entries(urlParams);
 
-    return url + '&amp;' + paramPairs.map(([key, value]) => `${key}=${value}`).join('&amp;');
+    return url + '&amp;' + urlParamsPairs.map(([key, value]) => `${key}=${value}`).join('&amp;');
 };
 
 
