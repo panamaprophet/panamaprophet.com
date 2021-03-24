@@ -14,7 +14,11 @@ export default function Home({ mainId = 'main', data = null }) {
             <Meta />
             <Header scrollTarget={mainId} />
             <main id={mainId}>
-                {data && data.map((section, index) => (<Section key={index} {...section} />))}
+                {data && data.map((section, index) => (<Section
+                    key={index}
+                    align={index % 2 ? 'right' : 'left'}
+                    {...section}
+                />))}
             </main>
             <Footer />
         </div>

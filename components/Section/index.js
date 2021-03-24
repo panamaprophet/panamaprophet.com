@@ -15,8 +15,12 @@ const Section = ({
     title,
     player,
     description,
+    align = 'left',
 }) => (
-    <section className={styles.root}>
+    <section className={[
+        styles.root,
+        styles[align],
+    ].join(' ')}>
         <div className={styles.info}>
             {image && (<div className={styles.image}>
                     <Image
