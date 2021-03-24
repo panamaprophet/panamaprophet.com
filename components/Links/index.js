@@ -1,40 +1,30 @@
 import Icon from '../Icon';
 import styles from './Links.module.css';
 
-/**
- * @todo: change fb to instagram
- */
+
 const Links = ({
-    facebook,
+    instagram,
     vkontakte,
     youtube,
     soundcloud,
  }) => (
-    <ul className={styles.container}>
-        {facebook && <li className={styles.link}>
-            <a href={facebook} target="_blank">
-                <Icon type="facebook" />
-            </a>
-        </li>}
+    <div className={styles.container}>
+        {soundcloud && <a href={soundcloud} target="_blank">
+            <Icon type="soundcloud" />
+        </a>}
 
-        {vkontakte && <li className={styles.link}>
-            <a href={vkontakte} target="_blank">
-                <Icon type="vkontakte" />
-            </a>
-        </li>}
+        {instagram && <a href={instagram} target="_blank">
+            <Icon type="instagram" />
+        </a>}
 
-        {youtube && <li className={styles.link}>
-            <a href={youtube} target="_blank">
-                <Icon type="youtube" />
-            </a>
-        </li>}
+        {vkontakte && <a href={vkontakte} target="_blank">
+            <Icon type="vkontakte" />
+        </a>}
 
-        {soundcloud && <li className={styles.link}>
-            <a href={soundcloud} target="_blank">
-                <Icon type="soundcloud" />
-            </a>
-        </li>}
-    </ul>
+        {youtube && <a href={youtube} target="_blank">
+            <Icon type="youtube" />
+        </a>}
+    </div>
 );
 
 export default Links;

@@ -16,7 +16,7 @@ const Section = ({
     player,
     description,
 }) => (
-    <section>
+    <section className={styles.root}>
         <div className={styles.info}>
             {image && (<div className={styles.image}>
                     <Image
@@ -43,9 +43,7 @@ const Section = ({
             </div>
         </div>
 
-        {player && (<div className={styles.player}>
-            <Player {...player} />
-        </div>)}
+        {player && <Player {...player} />}
     </section>
 );
 

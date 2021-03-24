@@ -33,18 +33,8 @@
 }
 
 .arrow:before {
-
-	-webkit-transform: rotate(-45deg);
-
-	   -moz-transform: rotate(-45deg);
-
-	    -ms-transform: rotate(-45deg);
-
-	        transform: rotate(-45deg);
-	-webkit-transform-origin: center center;
-	   -moz-transform-origin: center center;
-	    -ms-transform-origin: center center;
-	        transform-origin: center center;
+	transform: rotate(-45deg);
+	transform-origin: center center;
 
 	display: inline-block;
 	width: 16px;
@@ -58,9 +48,9 @@
 .youtube:before { content: '\f167'; }
 .vkontakte:before { content: '\f189'; }
 .soundcloud:before { content: '\f1be'; }
-.facebook:before { content: '\f30c'; }
+.instagram:before { content: '\f30c'; }
 
 .youtube:hover { color: #cc181e; }
 .vkontakte:hover { color: #507299; }
-.facebook:hover { color: #3b5998; }
+.instagram:hover { color: #d82c7d; }
 .soundcloud:hover { color: #ff6300; }
