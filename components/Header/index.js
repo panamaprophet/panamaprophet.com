@@ -2,9 +2,12 @@ import Icon from '../Icon';
 import styles from './Header.module.css';
 
 
+const getScrollDownTarget = (target) => target && `#${target}`;
+
+
 const ScrollDown = ({ target = null }) => (
-    <a className={styles.scrollDown} href={target && `#${target}`} >
-        <Icon type="arrow" />
+    <a className={styles.scrollDown} href={getScrollDownTarget(target)} >
+        <Icon type="arrow" width="48" height="48" />
     </a>
 );
 

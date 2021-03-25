@@ -25,7 +25,5 @@
 .scrollDown {
 	position: absolute;
     bottom: 30px;
-    left: 50%;
-    margin-left: -24px;
     cursor: pointer;
 }
