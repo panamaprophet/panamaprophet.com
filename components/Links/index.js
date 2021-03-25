@@ -8,7 +8,7 @@ const Links = ({
     youtube,
     soundcloud,
  }) => (
-    <div className={styles.container}>
+    <div className={styles.root}>
         {soundcloud && <a href={soundcloud} target="_blank">
             <Icon type="soundcloud" />
         </a>}

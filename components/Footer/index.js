@@ -3,7 +3,7 @@ import styles from './Footer.module.css';
 
 
 const Footer = () => (
-    <footer className={styles.container}>
+    <footer className={styles.root}>
         <Links
             instagram="//instagram.com/panamaprophet"
             vkontakte="//vk.com/reggae.addict"

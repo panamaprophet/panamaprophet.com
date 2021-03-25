@@ -13,7 +13,7 @@ const ScrollDown = ({ target = null }) => (
 
 
 const Header = ({ scrollTarget = null }) => (
-    <section className={styles.container}>
+    <section className={styles.root}>
         <svg className={styles.logo} viewBox="0 0 710 195" version="1.1" preserveAspectRatio="xMidYMid meet">
             <text x="0" y="150" textAnchor="start" className={styles.logoText}>PROPHET P</text>
         </svg>
