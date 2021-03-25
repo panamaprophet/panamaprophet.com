@@ -2,14 +2,9 @@ import Links from '../Links';
 import styles from './Footer.module.css';
 
 
-const Footer = () => (
+const Footer = ({ links }) => (
     <footer className={styles.root}>
-        <Links
-            instagram="//instagram.com/panamaprophet"
-            vkontakte="//vk.com/reggae.addict"
-            youtube="//youtube.com/c/panamaprophet"
-            soundcloud="//soundcloud.com/panamaprophet"
-        />
+        {links && <Links {...links} />}
     </footer>
 );
 

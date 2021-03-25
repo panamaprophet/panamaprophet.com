@@ -3,12 +3,15 @@ import Header from '../components/Header';
 import Meta from '../components/Meta';
 import Footer from '../components/Footer';
 
-import { getMainPageData } from '../resolvers';
+import {
+    getMainPageData,
+    getSocialLinks,
+ } from '../resolvers';
 
 import styles from '../styles/Home.module.css';
 
 
-export default function Home({ mainId = 'main', data = null }) {
+export default function Home({ mainId = 'main', data = null, links = null }) {
     return (
         <div className={styles.root}>
             <Meta />
@@ -20,7 +23,7 @@ export default function Home({ mainId = 'main', data = null }) {
                     {...section}
                 />))}
             </main>
-            <Footer />
+            <Footer links={links} />
         </div>
     )
 };
@@ -28,10 +31,12 @@ export default function Home({ mainId = 'main', data = null }) {
 
 export const getStaticProps = async context => {
     const data = await getMainPageData();
+    const links = await getSocialLinks();
 
     return {
         props: {
             data,
+            links,
         },
     };
 };
