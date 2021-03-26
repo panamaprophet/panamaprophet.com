@@ -22,8 +22,9 @@ const Section = ({
         styles[align],
     ].join(' ')}>
         <div className={styles.info}>
-            {image && (<div className={styles.image}>
+            {image && (<div className={styles.mediaContainer}>
                     <Image
+                    className={styles.image}
                         src={image}
                         alt={title}
                         layout="fixed"
@@ -32,7 +33,7 @@ const Section = ({
                     />
             </div>)}
 
-            {video && (<div className={styles.video}>
+            {video && (<div className={styles.mediaContainer}>
                 <Player
                     {...video}
                     width={IMAGE_DEFAULTS.width}
