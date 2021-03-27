@@ -11,9 +11,9 @@ const IMAGE_DEFAULTS = {
 
 const Section = ({
     image,
-    video,
     title,
     player,
+    videoUrl,
     description,
     align = 'left',
 }) => (
@@ -24,7 +24,7 @@ const Section = ({
         <div className={styles.info}>
             {image && (<div className={styles.mediaContainer}>
                     <Image
-                    className={styles.image}
+                        className={styles.image}
                         src={image}
                         alt={title}
                         layout="fixed"
@@ -33,11 +33,12 @@ const Section = ({
                     />
             </div>)}
 
-            {video && (<div className={styles.mediaContainer}>
-                <Player
-                    {...video}
+            {videoUrl && (<div className={styles.mediaContainer}>
+                <iframe
+                    src={videoUrl}
                     width={IMAGE_DEFAULTS.width}
                     height={IMAGE_DEFAULTS.height}
+                    frameBorder="0"
                 />
             </div>)}
 
@@ -48,7 +49,7 @@ const Section = ({
             </div>
         </div>
 
-        {player && <Player {...player} />}
+        {player}
     </section>
 );
 

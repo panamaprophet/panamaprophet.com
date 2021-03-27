@@ -2,7 +2,7 @@ import Links from '../Links';
 import styles from './Footer.module.css';
 
 
-const Footer = ({ links }) => (
+const Footer = ({links}) => (
     <footer className={styles.root}>
         {links && <Links {...links} />}
     </footer>

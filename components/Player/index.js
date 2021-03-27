@@ -1,51 +1,50 @@
-const DEFAULT_PLAYER_PARAMS = {
-    color: '113322',
-    auto_play: false,
-    hide_related: true,
-    show_comments: true,
-    show_user: false,
-    show_reposts: false,
-    show_artwork: false,
+import styles from './Player.module.css';
+
+
+const SPLIT_TITLE_REGEXP = /[·・]/;
+
+
+const formatDuration = duration => {
+    const minutes = duration / 1000 / 60 | 0;
+    const seconds = duration / 1000 % 60 | 0;
+    const secondsWithPadding = seconds.toString().padStart(2, 0);
+
+    return `${minutes}:${secondsWithPadding}`;
 };
 
-const PROPS_TO_PARAMS_MAP = {
-    autoPlay: 'auto_play',
-    hideRelated: 'hide_related',
-    showComments: 'show_comments',
-    showUser: 'show_user',
-    showReposts: 'show_reposts',
-    showArtwork: 'show_artwork',
+const formatTitle = title => {
+    const [result] = title.split(SPLIT_TITLE_REGEXP);
+
+    return result;
 };
 
-
-const getPlayerUrlParams = (props, params = DEFAULT_PLAYER_PARAMS) => {
-    const propKeys = Object.keys(props);
-
-    const mappedProps = propKeys.reduce((result, key) => {
-        const mappedKey = PROPS_TO_PARAMS_MAP[key] || key;
-
-        return {...result, [mappedKey]: props[key]};
-    }, {});
-
-    return { ...params, ...mappedProps };
-};
-
-const getPlayerUrlWithParams = (url, params) => {
-    const urlParams = getPlayerUrlParams(params);
-    const urlParamsPairs = Object.entries(urlParams);
-
-    return url + '&amp;' + urlParamsPairs.map(([key, value]) => `${key}=${value}`).join('&amp;');
-};
+const getTrackNumberByIndex = index => (index + 1).toString().padStart(2, 0);
 
 
-const Player = ({url, width = '100%', height, ...params}) => (
-    <iframe
-        src={getPlayerUrlWithParams(url, params)}
-        width={width}
-        height={height}
-        frameBorder="0"
-    />
+const Track = ({id, index, url, title, duration, onPlay}) => (
+    <div onClick={onPlay(id)} key={url} className={styles.track}>
+        <span className={styles.number}>{getTrackNumberByIndex(index)}</span>
+        <span className={styles.title}>{formatTitle(title)}</span>
+        <span className={styles.duration}> {formatDuration(duration)}</span>
+    </div>
 );
+
+const Player = ({tracks, onPlay}) => {
+    if (!tracks) {
+        return null;
+    }
+
+    return (
+        <div className={styles.root}>
+            {tracks.map((item, index) => (<Track
+                {...item}
+                index={index}
+                key={item.id}
+                onPlay={onPlay}
+            />))}
+        </div>
+    );
+};
 
 
 export default Player;
