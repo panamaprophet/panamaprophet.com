@@ -4,56 +4,54 @@ import Meta from '../components/Meta';
 import Footer from '../components/Footer';
 import Player from '../components/Player';
 import useAudio from '../hooks/useAudio';
-import {getMainPageData, getSocialLinks, getTracksData} from '../resolvers';
-import {createInitialState} from '../helpers';
+import {getPageDataById, getSocialLinks, getTracksData} from '../resolvers';
+import {PAGE_IDS} from '../constants';
 
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Main.module.css';
 
 
-export default function Home({
-    id = 'main',
-    data = null,
-    links = null,
-    tracks = null,
+const getAlignByIndex = index => index % 2 ? 'right' : 'left';
+
+const getPlaylists = data => data.map(item => item.playlist).filter(Boolean);
+
+const getTracksByPlaylist = (tracks, playlist) => tracks.filter(track => track.playlist === playlist);
+
+const mapTracksToState = (tracks, state) => tracks.map(track => state.find(item => item.id === track.id));
+
+
+
+export default function Main({
+    id = PAGE_IDS.MAIN,
+    data,
+    links,
+    tracks,
 }) {
-    const [state, setTrackState] = useAudio(createInitialState(tracks));
-
-    const players = data.map(item => {
-        const trackList = tracks[item.playerUrl];
-
-        if (!trackList) {
-            return null;
-        }
-
-        return (<Player
-            tracks={trackList.map(track => state.find(item => item.id === track.id))}
-            onPlay={setTrackState}
-        />);
-    });
-
-    const sections = data && data.map((item, index) => (<Section
-        key={index}
-        align={index % 2 ? 'right' : 'left'}
-        player={players[index]}
-        onPlay={setTrackState}
-        {...item}
-    />));
+    const [state, setTrackState] = useAudio(tracks);
 
     return (
         <div className={styles.root}>
             <Meta />
             <Header scrollTarget={id} />
-            <main id={id}>{sections}</main>
+            <main id={id}>
+                {data && data.map((item, index) => (
+                    <Section key={index} align={getAlignByIndex(index)} {...item}>
+                        <Player
+                            tracks={mapTracksToState(getTracksByPlaylist(tracks, item.playlist), state)}
+                            onPlay={setTrackState}
+                        />
+                    </Section>
+                ))}
+            </main>
             <Footer links={links} />
         </div>
     );
 };
 
+
 export const getStaticProps = async context => {
-    const data = await getMainPageData();
+    const data = await getPageDataById(PAGE_IDS.MAIN);
     const links = await getSocialLinks();
-    const trackUrls = data.map(({playerUrl}) => playerUrl).filter(Boolean);
-    const tracks = await getTracksData(trackUrls, process.env.clientId);
+    const tracks = await getTracksData(getPlaylists(data), process.env.clientId);
 
     return {
         props: {

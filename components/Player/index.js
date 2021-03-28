@@ -22,7 +22,7 @@ const getTrackNumberByIndex = index => (index + 1).toString().padStart(2, 0);
 
 
 const Track = ({id, index, url, title, duration, onPlay}) => (
-    <div onClick={onPlay(id)} key={url} className={styles.track}>
+    <div onClick={() => onPlay(id)} key={url} className={styles.track}>
         <span className={styles.number}>{getTrackNumberByIndex(index)}</span>
         <span className={styles.title}>{formatTitle(title)}</span>
         <span className={styles.duration}> {formatDuration(duration)}</span>
@@ -30,7 +30,7 @@ const Track = ({id, index, url, title, duration, onPlay}) => (
 );
 
 const Player = ({tracks, onPlay}) => {
-    if (!tracks) {
+    if (!tracks || tracks.length === 0) {
         return null;
     }
 

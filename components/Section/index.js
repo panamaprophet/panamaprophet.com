@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import Player from '../Player';
 import styles from './Section.module.css';
 
 
@@ -12,10 +11,10 @@ const IMAGE_DEFAULTS = {
 const Section = ({
     image,
     title,
-    player,
-    videoUrl,
+    video,
     description,
     align = 'left',
+    children,
 }) => (
     <section className={[
         styles.root,
@@ -33,9 +32,9 @@ const Section = ({
                     />
             </div>)}
 
-            {videoUrl && (<div className={styles.mediaContainer}>
+            {video && (<div className={styles.mediaContainer}>
                 <iframe
-                    src={videoUrl}
+                    src={video}
                     width={IMAGE_DEFAULTS.width}
                     height={IMAGE_DEFAULTS.height}
                     frameBorder="0"
@@ -49,7 +48,7 @@ const Section = ({
             </div>
         </div>
 
-        {player}
+        {children}
     </section>
 );
 

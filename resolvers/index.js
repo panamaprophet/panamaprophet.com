@@ -1,9 +1,15 @@
+import {PAGE_IDS} from '../constants';
 import mainPage from '../data/pages/main.json';
 import socialLinks from '../data/pages/social.json';
 
 
-export const getMainPageData = async () => {
-    return mainPage;
+const DATA_MAP = {
+    [PAGE_IDS.MAIN]: mainPage,
+};
+
+
+export const getPageDataById = async (pageId) => {
+    return DATA_MAP[pageId] || null;
 };
 
 export const getSocialLinks = async () => {
@@ -13,27 +19,21 @@ export const getSocialLinks = async () => {
 export const getTracksData = async (urls, clientId) => {
     const baseUrl = `https://api.soundcloud.com/resolve?client_id=${clientId}`;
 
-    const requestPromises = urls.map(url => fetch(`${baseUrl}&url=${url}`));
+    const requestPromises = urls.map(url => fetch(`${baseUrl}&url=${url}`).then(response => response.json()));
     const responses = await Promise.all(requestPromises);
 
-    const parsedResponsePromises = responses.map(response => response.json());
-    const parsedResponses = await Promise.all(parsedResponsePromises);
+    const groups = responses.map(data => data.kind === 'playlist' ? data.tracks : [data]);
 
-    const groups = parsedResponses.map(data => data.kind === 'playlist' ? data.tracks : [data]);
-
-    const reducedTracks = groups.reduce((result, group, index) => {
-        const reducedGroup = group.map(({id, title, duration, stream_url}) => ({
+    const tracks = groups.reduce((result, group, index) => ([
+        ...result,
+        ...group.map(({id, title, duration, stream_url}) => ({
             id,
             title,
             duration,
-        url: `${stream_url}?client_id=${clientId}`,
-        }));
+            url: `${stream_url}?client_id=${clientId}`,
+            playlist: urls[index],
+        }), [])
+    ]), []);
 
-        return {
-            ...result,
-            [urls[index]]: reducedGroup,
-        };
-    }, {});
-
-    return reducedTracks;
+    return tracks;
 };

@@ -6,7 +6,7 @@
             "Материал для этого альбома семь лет добирался до сети из Малаховки, по пути побывав и в Израиле, и в Лесном городке.",
             "Но, как известно, у хорошей песни нет срока давности, и потому вашему вниманию — прекрасно настоявшийся рутс!"
         ],
-        "playerUrl": "https://soundcloud.com/panamaprophet/sets/pp-lp-lp"
+        "playlist": "https://soundcloud.com/panamaprophet/sets/pp-lp-lp"
     },
     {
         "image": "/images/cover-garden.jpg",
@@ -15,7 +15,7 @@
             "С некоторым опозданием, но с не меньшей актуальностью представляю пиратский гимн всех садоводов, растениеводов и сочувствующих.",
             "Ритм от песни «La La La Means I Love You», слова и исполнение - Prophet P. Оформление - домашнее"
         ],
-        "playerUrl": "https://soundcloud.com/panamaprophet/in-my-garden"
+        "playlist": "https://soundcloud.com/panamaprophet/in-my-garden"
     },
     {
         "image": "/images/cover-jungle.jpg",
@@ -24,7 +24,7 @@
             "На этот раз речь пойдёт о человечности и животных инстинктах: своей новой песней призываю в любой ситуации оставаться людьми!",
             "Ритм, слова и песня - мои, на гитаре и за микшерным пультом - Ребелстеппа, на бэк-вокале - Алина. Оформление - Milky Way"
         ],
-        "playerUrl": "https://soundcloud.com/panamaprophet/sets/jungle-citizens"
+        "playlist": "https://soundcloud.com/panamaprophet/sets/jungle-citizens"
     },
     {
         "image": "/images/cover-rasta.jpg",
@@ -33,7 +33,7 @@
             "Свежая песня! Специальное послание всем, кто устал от слухов и подстрекательства: не дай давлению размять тебя!",
             "Песня написана, записана и спродюссирована Профетом, на гитаре - Ребелстеппа, на бэк-вокале - Алина, сведением занимался Малей. Оформление - товарищ MilkyWay."
         ],
-        "playerUrl": "https://soundcloud.com/panamaprophet/rasta-rasta"
+        "playlist": "https://soundcloud.com/panamaprophet/rasta-rasta"
     },
     {
         "image": "/images/cover.jpg",
@@ -42,7 +42,7 @@
             "Рад представить вам мой новый альбом «P», в работе над которым я выступил не только в роли исполнителя, но и продюсера, весело орудуя клавишами, семплами, изолентой и клеем с ножницами.",
             "Записывать и сводить материал помогали мои старые друзья - такие ребята, как Rebelsteppa, Tenor Youthman, Fayah Temple, General Culture, Дима Шишкин, Аина и Алина, а обложку, как я уже говорил ранее, нарисовал Лёха Бархан."
         ],
-        "playerUrl": "https://soundcloud.com/panamaprophet/sets/p-lp"
+        "playlist": "https://soundcloud.com/panamaprophet/sets/p-lp"
     },
     {
         "title": "Нравится любить тебя!",
@@ -50,6 +50,6 @@
             "Сняли с Алиной видео на песню «Мне нравится любитиь тебя» при помощи мобильного телефона и изрядной доли терпения.",
             "Оригинальный материал был утерян, превратившись в гифки, этот клип переснят за пятнадцать минут."
         ],
-        "videoUrl": "//www.youtube.com/embed/rGfBQQomMf0?showinfo=0"
+        "video": "//www.youtube.com/embed/rGfBQQomMf0?showinfo=0"
     }
 ]

@@ -13,7 +13,7 @@ const mapTracksToAudio = tracks => tracks.map(track => {
     };
 });
 
-const mapTracksToState = tracks => tracks.map(track => ({
+const createInitialState = tracks => tracks.map(track => ({
     ...track,
     isPlaying: false,
 }));
@@ -38,11 +38,10 @@ const setPlayState = (id, state) => {
 
 const useAudio = (tracks) => {
     const [audio, setAudio] = useState([]);
-    const [state, setState] = useState(mapTracksToState(tracks));
+    const [state, setState] = useState(createInitialState(tracks));
+    const setPlayStateById = id => setState(setPlayState(id, state));
 
     useEffect(() => setAudio(mapTracksToAudio(tracks)), []);
-
-    const setPlayStateById = id => () => setState(setPlayState(id, state));
 
     useEffect(() => {
         audio.forEach((item, index) => state[index].isPlaying
@@ -52,15 +51,7 @@ const useAudio = (tracks) => {
     }, [audio, state]);
 
     useEffect(() => {
-        audio.forEach((a, index) => a.audio.addEventListener('ended', () => {
-            const hasNext = index < audio.length - 1;
-
-            setState(setPlayState(a.id, state));
-
-            if (hasNext) {
-                setState(setPlayState(audio[index + 1].id, state));
-            }
-        }));
+        audio.forEach(item => item.audio.addEventListener('ended', () => setPlayStateById(item.id)));
     }, []);
 
     return [state, setPlayStateById];
