@@ -1,17 +1,20 @@
 import {ReactNode} from 'react';
 import Image from 'next/image';
-import type {SectionEntity, SectionAlign} from '../../types';
 
 import styles from './Section.module.css';
 
 
-type Props = SectionEntity & {
-    align?: SectionAlign,
+type Props = {
+    title: string,
+    description: string[],
+    image?: string,
+    video?: string,
+    align: 'left' | 'right',
     children?: ReactNode,
 };
 
 
-const IMAGE_DEFAULTS: Record<string, string | number> = {
+const IMAGE_DEFAULTS = {
     width: 420,
     height: 420,
 };

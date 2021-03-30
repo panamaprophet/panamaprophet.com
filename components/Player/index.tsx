@@ -1,16 +1,17 @@
-import type {TrackState} from '../../types';
-
 import styles from './Player.module.css';
 
 
-type TrackProps = TrackState & {
+type TrackProps = {
+    id: number,
     index: number,
+    url: string,
+    title: string,
+    duration: number,
     onPlay: (id: number) => void,
 };
 
 type PlayerProps = {
-    tracks: TrackState[],
-    onPlay: (id: number) => void,
+    tracks: TrackProps[],
 };
 
 
@@ -31,7 +32,9 @@ const formatTitle = (title: string) => {
     return result;
 };
 
-const getTrackNumberByIndex = (index: number) => (index + 1).toString().padStart(2, '0');
+const getTrackNumberByIndex = (index: number) => {
+    return (index + 1).toString().padStart(2, '0');
+};
 
 
 const Track = ({id, index, url, title, duration, onPlay}: TrackProps) => (
@@ -42,7 +45,7 @@ const Track = ({id, index, url, title, duration, onPlay}: TrackProps) => (
     </div>
 );
 
-const Player = ({tracks, onPlay}: PlayerProps) => {
+const Player = ({tracks}: PlayerProps) => {
     if (!tracks || tracks.length === 0) {
         return null;
     }
@@ -53,7 +56,6 @@ const Player = ({tracks, onPlay}: PlayerProps) => {
                 {...item}
                 index={index}
                 key={item.id}
-                onPlay={onPlay}
             />))}
         </div>
     );

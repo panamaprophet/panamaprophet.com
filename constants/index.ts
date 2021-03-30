@@ -1,3 +1,3 @@
-export const PAGE_IDS: Record<string, string> = {
+export const PAGE_IDS = {
     MAIN: 'main',
 };

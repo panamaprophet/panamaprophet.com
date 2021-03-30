@@ -38,7 +38,10 @@ const setPlayState = (id: number, state: TrackState[]): TrackState[] => {
 };
 
 
-const useAudio = (tracks: Track[]): [TrackState[], (id: number) => void] => {
+const useAudio = (tracks: Track[]): [
+    TrackState[],
+    (id: number) => void
+] => {
     const [audio, setAudio] = useState<TrackAudioState[]>([]);
     const [state, setState] = useState(createInitialState(tracks));
     const setPlayStateById = (id: number): void => setState(setPlayState(id, state));

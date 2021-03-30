@@ -1,14 +1,15 @@
-import Section from '../components/Section';
 import Header from '../components/Header';
 import Meta from '../components/Meta';
 import Footer from '../components/Footer';
-import Player from '../components/Player';
+import Section from '../components/Section';
+import Player from '../containers/Player';
 import useAudio from '../hooks/useAudio';
 import {getPageDataById, getSocialLinks, getTracksData} from '../resolvers';
+import {getAlignByIndex, mapTracksToState, getTracksByPlaylist, getPlaylists} from '../helpers';
 import {PAGE_IDS} from '../constants';
 
 import type {AppContext} from 'next/app';
-import type {SectionAlign, SectionEntity, Track, TrackState} from '../types';
+import type {SectionEntity, Track} from '../types';
 
 import styles from '../styles/Main.module.css';
 
@@ -19,21 +20,6 @@ type Props = {
     links: Record<string, string>,
     tracks: Track[],
 };
-
-
-const getAlignByIndex = (index: number): SectionAlign => index % 2 ? 'right' : 'left';
-
-const getPlaylists = (data: SectionEntity[]): string[] => data
-    .map(item => item.playlist)
-    .filter((item): item is string => Boolean(item));
-
-const getTracksByPlaylist = (tracks: Track[], playlist: string): Track[] => tracks
-    .filter(track => track.playlist === playlist);
-
-const mapTracksToState = (tracks: Track[], state: TrackState[]): TrackState[] => tracks
-    .map(track => state.find(item => item.id === track.id))
-    .filter((item): item is TrackState => Boolean(item));
-
 
 
 export default function Main({
@@ -49,7 +35,7 @@ export default function Main({
             <Meta />
             <Header scrollTarget={id} />
             <main id={id}>
-                {data && data.map((item: SectionEntity, index: number) => (
+                {data && data.map((item, index) => (
                     <Section key={index} align={getAlignByIndex(index)} {...item}>
                         {item.playlist && (<Player
                             tracks={mapTracksToState(getTracksByPlaylist(tracks, item.playlist), state)}
@@ -73,14 +59,11 @@ export const getStaticProps = async (context: AppContext) => {
         };
     }
 
-    const links = await getSocialLinks();
-    const tracks = await getTracksData(getPlaylists(data), process.env.clientId || '');
-
     return {
         props: {
             data,
-            links,
-            tracks,
+            links: await getSocialLinks(),
+            tracks: await getTracksData(getPlaylists(data), process.env.clientId || ''),
         },
         revalidate: Number(process.env.revalidationInterval),
     };

@@ -9,7 +9,7 @@ type Props = {
 
 const Footer = ({links}: Props) => (
     <footer className={styles.root}>
-        {links && <Links {...links} />}
+        {links && <Links urls={links} />}
     </footer>
 );
 
