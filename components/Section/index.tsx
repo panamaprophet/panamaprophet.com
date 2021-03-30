@@ -1,5 +1,17 @@
-import Image from 'next/image'
+import {ReactNode} from 'react';
+import Image from 'next/image';
+
 import styles from './Section.module.css';
+
+
+type Props = {
+    title: string,
+    description: string[],
+    image?: string,
+    video?: string,
+    align: 'left' | 'right',
+    children?: ReactNode,
+};
 
 
 const IMAGE_DEFAULTS = {
@@ -15,7 +27,7 @@ const Section = ({
     description,
     align = 'left',
     children,
-}) => (
+}: Props) => (
     <section className={[
         styles.root,
         styles[align],

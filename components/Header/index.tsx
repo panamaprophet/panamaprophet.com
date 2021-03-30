@@ -2,17 +2,25 @@ import Icon from '../Icon';
 import styles from './Header.module.css';
 
 
-const getScrollDownTarget = (target) => target && `#${target}`;
+type ScrollDownProps = {
+    target: string,
+};
+
+type HeaderProps = {
+    scrollTarget: string,
+};
 
 
-const ScrollDown = ({target = null}) => (
+const getScrollDownTarget = (target: string) => target && `#${target}`;
+
+const ScrollDown = ({target}: ScrollDownProps) => (
     <a className={styles.scrollDown} href={getScrollDownTarget(target)} >
-        <Icon type="arrow" width="48" height="48" />
+        <Icon type="arrow" width={48} height={48} />
     </a>
 );
 
 
-const Header = ({scrollTarget = null}) => (
+const Header = ({scrollTarget}: HeaderProps) => (
     <section className={styles.root}>
         <svg className={styles.logo} version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 252" preserveAspectRatio="xMidYMid meet">
             <path fill="#232323" d="M0 126v126h1020V0H0v126zm341.6-70.9c16.7 5.4 28.2 20 32 40.9 1.8 10.1 1.8 48.8 0 59.1-4.7 26.1-23.1 41.9-49.1 41.9-25.3 0-42.6-14.1-49.1-40-1.6-6.4-1.9-11.1-1.8-32.5 0-22.3.3-25.8 2.2-32.7 4.7-17.2 13-28.2 25.9-34.4 11.3-5.4 27.3-6.3 39.9-2.3zm-227.5.3c11.8 2.5 20.1 7.9 26.4 17 12.1 17.6 11 44.5-2.5 59.8-8.3 9.5-21.1 13.8-41.2 13.8H84v49H55V54h26.3c18.7 0 28.1.4 32.8 1.4zm110.2 0c21.8 4.2 32.7 18.2 32.7 42.2 0 15.4-5.3 28-14.8 34.9-2.2 1.6-4.1 3.6-4.1 4.3-.1.7 5.1 13.4 11.4 28.2 6.3 14.8 11.5 27.6 11.5 28.4 0 1.4-2.1 1.6-15.4 1.6h-15.3l-10.4-25.5-10.4-25.5H196v51h-29V54h24.9c17.5 0 27.2.4 32.4 1.4zm229.8.1c15.7 3.3 27.4 13.7 32 28.7 5.7 18 1.8 38-9.6 49.3-8.9 9-20.1 12.5-39.7 12.5H424v49h-29V54h25.9c19.4 0 27.8.4 33.2 1.5zm81.9 27V111h41V54h29v141h-29l-.2-29.7-.3-29.8-20.2-.3-20.3-.2v60h-29V54h29v28.5zm172.1-16v12l-25.5.3-25.6.2v32h44.1l-.3 11.7-.3 11.8-21.7.3-21.8.2v36h52v24l-40.7-.2-40.8-.3-.3-69c-.1-38 0-69.6.3-70.3.3-1 9-1.2 40.5-1l40.1.3v12zm109.4 0v12l-17.2.3-17.3.2v116h-29V79h-34V54l48.8.2 48.7.3v12zm118.4-11.4c17.9 3.1 31.5 16.1 35.2 33.7 1.7 8.5.7 24.3-2.2 31.6-2.6 6.7-10.1 15.5-16.4 19.1-7.6 4.5-13.1 5.7-29.2 6.2l-15.3.5-.2 24.2-.3 24.1-14.7.3-14.8.3v-69.9c0-38.4.3-70.2.7-70.5 1.1-1.2 50.2-.8 57.2.4z"/>

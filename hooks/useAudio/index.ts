@@ -1,7 +1,9 @@
 import {useEffect, useState} from 'react';
 
+import type {Track, TrackState, TrackAudioState} from '../../types';
 
-const mapTracksToAudio = tracks => tracks.map(track => {
+
+const mapTracksToAudio = (tracks: Track[]): TrackAudioState[] => tracks.map(track => {
     const audioTrack = new Audio();
 
     audioTrack.preload = 'none';
@@ -13,12 +15,12 @@ const mapTracksToAudio = tracks => tracks.map(track => {
     };
 });
 
-const createInitialState = tracks => tracks.map(track => ({
+const createInitialState = (tracks: Track[]): TrackState[] => tracks.map(track => ({
     ...track,
     isPlaying: false,
 }));
 
-const setPlayState = (id, state) => {
+const setPlayState = (id: number, state: TrackState[]): TrackState[] => {
     const result = [...state];
     const targetIndex = state.findIndex(item => item.id === id);
     const currentIndex = state.findIndex(item => item.isPlaying === true);
@@ -36,10 +38,13 @@ const setPlayState = (id, state) => {
 };
 
 
-const useAudio = (tracks) => {
-    const [audio, setAudio] = useState([]);
+const useAudio = (tracks: Track[]): [
+    TrackState[],
+    (id: number) => void
+] => {
+    const [audio, setAudio] = useState<TrackAudioState[]>([]);
     const [state, setState] = useState(createInitialState(tracks));
-    const setPlayStateById = id => setState(setPlayState(id, state));
+    const setPlayStateById = (id: number): void => setState(setPlayState(id, state));
 
     useEffect(() => setAudio(mapTracksToAudio(tracks)), []);
 

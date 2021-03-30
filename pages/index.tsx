@@ -1,23 +1,25 @@
-import Section from '../components/Section';
 import Header from '../components/Header';
 import Meta from '../components/Meta';
 import Footer from '../components/Footer';
-import Player from '../components/Player';
+import Section from '../components/Section';
+import Player from '../containers/Player';
 import useAudio from '../hooks/useAudio';
 import {getPageDataById, getSocialLinks, getTracksData} from '../resolvers';
+import {getAlignByIndex, mapTracksToState, getTracksByPlaylist, getPlaylists} from '../helpers';
 import {PAGE_IDS} from '../constants';
+
+import type {AppContext} from 'next/app';
+import type {Section as SectionType, Track} from '../types';
 
 import styles from '../styles/Main.module.css';
 
 
-const getAlignByIndex = index => index % 2 ? 'right' : 'left';
-
-const getPlaylists = data => data.map(item => item.playlist).filter(Boolean);
-
-const getTracksByPlaylist = (tracks, playlist) => tracks.filter(track => track.playlist === playlist);
-
-const mapTracksToState = (tracks, state) => tracks.map(track => state.find(item => item.id === track.id));
-
+type Props = {
+    id: string,
+    data: SectionType[],
+    links: Record<string, string>,
+    tracks: Track[],
+};
 
 
 export default function Main({
@@ -25,7 +27,7 @@ export default function Main({
     data,
     links,
     tracks,
-}) {
+}: Props) {
     const [state, setTrackState] = useAudio(tracks);
 
     return (
@@ -35,10 +37,10 @@ export default function Main({
             <main id={id}>
                 {data && data.map((item, index) => (
                     <Section key={index} align={getAlignByIndex(index)} {...item}>
-                        <Player
+                        {item.playlist && (<Player
                             tracks={mapTracksToState(getTracksByPlaylist(tracks, item.playlist), state)}
                             onPlay={setTrackState}
-                        />
+                        />)}
                     </Section>
                 ))}
             </main>
@@ -48,16 +50,20 @@ export default function Main({
 };
 
 
-export const getStaticProps = async context => {
+export const getStaticProps = async (context: AppContext) => {
     const data = await getPageDataById(PAGE_IDS.MAIN);
-    const links = await getSocialLinks();
-    const tracks = await getTracksData(getPlaylists(data), process.env.clientId);
+
+    if (!data) {
+        return {
+            notFound: true,
+        };
+    }
 
     return {
         props: {
             data,
-            links,
-            tracks,
+            links: await getSocialLinks(),
+            tracks: await getTracksData(getPlaylists(data), process.env.clientId || ''),
         },
         revalidate: Number(process.env.revalidationInterval),
     };
