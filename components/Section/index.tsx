@@ -1,8 +1,17 @@
-import Image from 'next/image'
+import {ReactNode} from 'react';
+import Image from 'next/image';
+import type {SectionEntity, SectionAlign} from '../../types';
+
 import styles from './Section.module.css';
 
 
-const IMAGE_DEFAULTS = {
+type Props = SectionEntity & {
+    align?: SectionAlign,
+    children?: ReactNode,
+};
+
+
+const IMAGE_DEFAULTS: Record<string, string | number> = {
     width: 420,
     height: 420,
 };
@@ -15,7 +24,7 @@ const Section = ({
     description,
     align = 'left',
     children,
-}) => (
+}: Props) => (
     <section className={[
         styles.root,
         styles[align],

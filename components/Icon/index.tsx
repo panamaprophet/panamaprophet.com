@@ -7,7 +7,16 @@ import Arrow from './images/arrow.svg';
 import styles from './Icon.module.css';
 
 
-const TYPE_TO_ICON_MAP = {
+export type IconType = 'arrow' | 'instagram' | 'soundcloud' | 'vkontakte' | 'youtube';
+
+type Props = {
+    type: IconType,
+    width?: number,
+    height?: number,
+};
+
+
+const TYPE_TO_ICON_MAP: Record<IconType, string> = {
     instagram: Instagram,
     soundcloud: Soundcloud,
     vkontakte: Vkontakte,
@@ -20,7 +29,7 @@ const Icon = ({
     type,
     width = 32,
     height = 32,
-}) => {
+}: Props) => {
     const classes = [
         styles.root,
         styles[type],

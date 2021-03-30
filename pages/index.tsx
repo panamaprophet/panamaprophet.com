@@ -7,16 +7,32 @@ import useAudio from '../hooks/useAudio';
 import {getPageDataById, getSocialLinks, getTracksData} from '../resolvers';
 import {PAGE_IDS} from '../constants';
 
+import type {AppContext} from 'next/app';
+import type {SectionAlign, SectionEntity, Track, TrackState} from '../types';
+
 import styles from '../styles/Main.module.css';
 
 
-const getAlignByIndex = index => index % 2 ? 'right' : 'left';
+type Props = {
+    id: string,
+    data: SectionEntity[],
+    links: Record<string, string>,
+    tracks: Track[],
+};
 
-const getPlaylists = data => data.map(item => item.playlist).filter(Boolean);
 
-const getTracksByPlaylist = (tracks, playlist) => tracks.filter(track => track.playlist === playlist);
+const getAlignByIndex = (index: number): SectionAlign => index % 2 ? 'right' : 'left';
 
-const mapTracksToState = (tracks, state) => tracks.map(track => state.find(item => item.id === track.id));
+const getPlaylists = (data: SectionEntity[]): string[] => data
+    .map(item => item.playlist)
+    .filter((item): item is string => Boolean(item));
+
+const getTracksByPlaylist = (tracks: Track[], playlist: string): Track[] => tracks
+    .filter(track => track.playlist === playlist);
+
+const mapTracksToState = (tracks: Track[], state: TrackState[]): TrackState[] => tracks
+    .map(track => state.find(item => item.id === track.id))
+    .filter((item): item is TrackState => Boolean(item));
 
 
 
@@ -25,7 +41,7 @@ export default function Main({
     data,
     links,
     tracks,
-}) {
+}: Props) {
     const [state, setTrackState] = useAudio(tracks);
 
     return (
@@ -33,12 +49,12 @@ export default function Main({
             <Meta />
             <Header scrollTarget={id} />
             <main id={id}>
-                {data && data.map((item, index) => (
+                {data && data.map((item: SectionEntity, index: number) => (
                     <Section key={index} align={getAlignByIndex(index)} {...item}>
-                        <Player
+                        {item.playlist && (<Player
                             tracks={mapTracksToState(getTracksByPlaylist(tracks, item.playlist), state)}
                             onPlay={setTrackState}
-                        />
+                        />)}
                     </Section>
                 ))}
             </main>
@@ -48,10 +64,17 @@ export default function Main({
 };
 
 
-export const getStaticProps = async context => {
+export const getStaticProps = async (context: AppContext) => {
     const data = await getPageDataById(PAGE_IDS.MAIN);
+
+    if (!data) {
+        return {
+            notFound: true,
+        };
+    }
+
     const links = await getSocialLinks();
-    const tracks = await getTracksData(getPlaylists(data), process.env.clientId);
+    const tracks = await getTracksData(getPlaylists(data), process.env.clientId || '');
 
     return {
         props: {
