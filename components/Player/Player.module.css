@@ -6,6 +6,7 @@
     border-bottom: 1px solid rgba(66,66,66,0.2);
 
     cursor: pointer;
+    display: flex;
 }
 
 .duration {
@@ -21,6 +22,13 @@
 
 .isPlaying .number {
     animation: pulse 3s ease infinite alternate;
+}
+
+.title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
 }
 
 @keyframes pulse {

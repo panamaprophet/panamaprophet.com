@@ -14,6 +14,9 @@
 
 .mediaContainer {
     margin-right: 60px;
+    max-width: 420px;
+    max-height: 420px;
+    flex-shrink: 0;
 }
 
 .info {
@@ -47,4 +50,35 @@
 .right .mediaContainer {
     margin-left: 60px;
     margin-right: 0;
+}
+
+
+@media screen and (max-width: 1000px) {
+    .root {
+        padding: 0 20px;
+    }
+
+    .info,
+    .right .info {
+        flex-flow: column;
+        align-items: center;
+    }
+
+    .mediaContainer,
+    .right .mediaContainer {
+        margin: 0;
+        margin-bottom: 60px;
+    }
+
+    .videoContainer {
+        padding-bottom: 100%;
+        width: 100%;
+        position: relative;
+    }
+
+    .videoContainer iframe {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
 }

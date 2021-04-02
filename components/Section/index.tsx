@@ -38,13 +38,15 @@ const Section = ({
                         className={styles.image}
                         src={image}
                         alt={title}
-                        layout="fixed"
                         width={IMAGE_DEFAULTS.width}
                         height={IMAGE_DEFAULTS.height}
                     />
             </div>)}
 
-            {video && (<div className={styles.mediaContainer}>
+            {video && (<div className={[
+                styles.mediaContainer,
+                styles.videoContainer,
+            ].join(' ')}>
                 <iframe
                     src={video}
                     width={IMAGE_DEFAULTS.width}
