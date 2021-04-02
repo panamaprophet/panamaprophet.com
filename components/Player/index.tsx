@@ -7,6 +7,7 @@ type TrackProps = {
     url: string,
     title: string,
     duration: number,
+    isPlaying: boolean,
     onPlay: (id: number) => void,
 };
 
@@ -37,13 +38,17 @@ const getTrackNumberByIndex = (index: number) => {
 };
 
 
-const Track = ({id, index, url, title, duration, onPlay}: TrackProps) => (
-    <div onClick={() => onPlay(id)} key={url} className={styles.track}>
-        <span className={styles.number}>{getTrackNumberByIndex(index)}</span>
+const Track = ({id, index, url, title, duration, isPlaying, onPlay}: TrackProps) => (
+    <div onClick={() => onPlay(id)} key={url} className={[
+        styles.track,
+        isPlaying && styles.isPlaying,
+    ].join(' ')}>
+        <span className={styles.number}>{isPlaying ? '▶' : getTrackNumberByIndex(index)}</span>
         <span className={styles.title}>{formatTitle(title)}</span>
         <span className={styles.duration}> {formatDuration(duration)}</span>
     </div>
 );
+
 
 const Player = ({tracks}: PlayerProps) => {
     if (!tracks || tracks.length === 0) {

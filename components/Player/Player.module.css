@@ -18,3 +18,17 @@
     display: inline-block;
     width: 20px;
 }
+
+.isPlaying .number {
+    animation: pulse 3s ease infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        opacity: 0.2;
+    }
+
+    to {
+        opacity: 0.8;
+    }
+}
