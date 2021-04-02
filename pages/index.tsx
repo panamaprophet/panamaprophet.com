@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import Section from '../components/Section';
 import Player from '../containers/Player';
 import useAudio from '../hooks/useAudio';
-import {getPageDataById, getSocialLinks, getTracksData} from '../resolvers';
+import {getPageDataById, getSocialLinks, getTracksData, getEnv} from '../resolvers';
 import {getAlignByIndex, mapTracksToState, getTracksByPlaylist, getPlaylists} from '../helpers';
 import {PAGE_IDS} from '../constants';
 
@@ -51,6 +51,7 @@ export default function Main({
 
 
 export const getStaticProps = async (context: AppContext) => {
+    const env = await getEnv();
     const data = await getPageDataById(PAGE_IDS.MAIN);
 
     if (!data) {
@@ -63,8 +64,8 @@ export const getStaticProps = async (context: AppContext) => {
         props: {
             data,
             links: await getSocialLinks(),
-            tracks: await getTracksData(getPlaylists(data), process.env.clientId || ''),
+            tracks: await getTracksData(getPlaylists(data), env.clientId),
         },
-        revalidate: Number(process.env.revalidationInterval),
+        revalidate: env.revalidationInterval,
     };
 };

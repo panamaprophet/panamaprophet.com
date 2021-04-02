@@ -6,7 +6,7 @@ import socialLinks from '../data/pages/social.json';
 import type {Section, Track} from '../types';
 
 
-const DATA_MAP: Record<string, Section[]> = {
+const DATA_MAP: {[key: string]: Section[]} = {
     [PAGE_IDS.MAIN]: mainPage,
 };
 
@@ -15,7 +15,7 @@ export const getPageDataById = async (pageId: string): Promise<Section[] | null>
     return DATA_MAP[pageId] || null;
 };
 
-export const getSocialLinks = async (): Promise<Record<string, string>> => {
+export const getSocialLinks = async (): Promise<{[key: string]: string}> => {
     return socialLinks;
 };
 
@@ -49,3 +49,8 @@ export const getTracksData = async (urls: string[], clientId: string): Promise<T
 
     return tracks;
 };
+
+export const getEnv = async (): Promise<{clientId: string, revalidationInterval: number}> => ({
+    clientId: String(process.env.clientId),
+    revalidationInterval: Number(process.env.revalidationInterval),
+});
