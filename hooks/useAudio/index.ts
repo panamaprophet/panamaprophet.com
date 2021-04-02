@@ -56,8 +56,19 @@ const useAudio = (tracks: Track[]): [
     }, [audio, state]);
 
     useEffect(() => {
-        audio.forEach(item => item.audio.addEventListener('ended', () => setPlayStateById(item.id)));
-    }, []);
+        audio.forEach((item, index) => item.audio.addEventListener('ended', () => {
+            setPlayStateById(item.id);
+
+            const currentTrack = state[index];
+            const playlistTracks = state.filter(track => track.playlist === currentTrack?.playlist);
+            const currentIndex = playlistTracks.findIndex(track => track.id === currentTrack?.id);
+            const nextTrack = playlistTracks[currentIndex + 1];
+
+            if (nextTrack) {
+                setPlayStateById(nextTrack.id);
+            }
+        }));
+    }, [audio]);
 
     return [state, setPlayStateById];
 };
