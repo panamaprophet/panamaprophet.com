@@ -3,7 +3,7 @@ import styles from './Footer.module.css';
 
 
 type Props = {
-    links: Record<string, string>,
+    links: {[key: string]: string},
 };
 
 

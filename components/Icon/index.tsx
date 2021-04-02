@@ -7,7 +7,13 @@ import Arrow from './images/arrow.svg';
 import styles from './Icon.module.css';
 
 
-export type IconType = 'arrow' | 'instagram' | 'soundcloud' | 'vkontakte' | 'youtube';
+type IconType =
+    | 'arrow'
+    | 'instagram'
+    | 'soundcloud'
+    | 'vkontakte'
+    | 'youtube'
+    ;
 
 type Props = {
     type: IconType,
@@ -15,8 +21,10 @@ type Props = {
     height?: number,
 };
 
+export const isIconType = (value: any): value is IconType => value in TYPE_TO_ICON_MAP;
 
-const TYPE_TO_ICON_MAP: Record<IconType, string> = {
+
+const TYPE_TO_ICON_MAP: {[k in IconType]: string} = {
     instagram: Instagram,
     soundcloud: Soundcloud,
     vkontakte: Vkontakte,

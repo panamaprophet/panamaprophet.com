@@ -17,7 +17,7 @@ import styles from '../styles/Main.module.css';
 type Props = {
     id: string,
     data: SectionType[],
-    links: Record<string, string>,
+    links: {[key: string]: string},
     tracks: Track[],
 };
 

@@ -1,10 +1,9 @@
-import Icon from '../Icon';
+import Icon, {isIconType} from '../Icon';
 import styles from './Links.module.css';
-import type {IconType} from '../Icon';
 
 
 type Props = {
-    urls: Record<string, string>,
+    urls: {[key: string]: string},
 };
 
 
@@ -15,7 +14,7 @@ const Links = ({urls}: Props) => {
         <div className={styles.root}>
             {keys.map(key => (
                 <a key={key} href={urls[key]} target="_blank">
-                    <Icon type={key as IconType} />
+                    {isIconType(key) ? <Icon type={key} /> : key}
                 </a>
             ))}
         </div>
