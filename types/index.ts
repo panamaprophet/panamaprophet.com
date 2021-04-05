@@ -4,6 +4,7 @@ export type Section = {
     title: string,
     description: string[],
     playlist?: string,
+    links?: {[k: string]: string},
 };
 
 export type Track = {

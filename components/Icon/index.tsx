@@ -3,6 +3,9 @@ import Soundcloud from './images/soundcloud.svg';
 import Vkontakte from './images/vk.svg';
 import Youtube from './images/youtube.svg';
 import Arrow from './images/arrow.svg';
+import Spotify from './images/spotify.svg';
+import Apple from './images/apple.svg';
+import YoutubeMusic from './images/youtube-music.svg';
 
 import styles from './Icon.module.css';
 
@@ -13,6 +16,9 @@ type IconType =
     | 'soundcloud'
     | 'vkontakte'
     | 'youtube'
+    | 'spotify'
+    | 'apple'
+    | 'youtube-music'
     ;
 
 type Props = {
@@ -30,6 +36,9 @@ const TYPE_TO_ICON_MAP: {[k in IconType]: string} = {
     vkontakte: Vkontakte,
     youtube: Youtube,
     arrow: Arrow,
+    spotify: Spotify,
+    apple: Apple,
+    'youtube-music': YoutubeMusic,
 };
 
 

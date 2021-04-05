@@ -1,5 +1,6 @@
 import {ReactNode} from 'react';
 import Image from 'next/image';
+import Links from '../Links';
 
 import styles from './Section.module.css';
 
@@ -7,6 +8,7 @@ import styles from './Section.module.css';
 type Props = {
     title: string,
     description: string[],
+    links?: {[k: string]: string},
     image?: string,
     video?: string,
     align: 'left' | 'right',
@@ -24,6 +26,7 @@ const Section = ({
     image,
     title,
     video,
+    links,
     description,
     align = 'left',
     children,
@@ -59,6 +62,8 @@ const Section = ({
                 {title && <h2 className={styles.title}>{title}</h2>}
 
                 {description && description.map((line, index) => <p key={index}>{line}</p>)}
+
+                {links && <Links layout="compact" urls={links} />}
             </div>
         </div>
 

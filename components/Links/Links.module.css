@@ -5,3 +5,12 @@
     list-style: none;
     text-align: center;
 }
+
+.link {
+    margin: 0 16px;
+    opacity: 0.6;
+}
+
+.compact .link {
+    margin: 0 10px 0 0;
+}
