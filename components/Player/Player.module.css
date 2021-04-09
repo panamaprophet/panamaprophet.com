@@ -3,10 +3,22 @@
     line-height: 1.8em;
     margin: 0 0 20px;
 
+    transition: border-color 250ms ease;
     border-bottom: 1px solid rgba(66,66,66,0.2);
 
     cursor: pointer;
     display: flex;
+}
+
+.track:hover,
+.isPlaying {
+    border-color: rgb(200, 70, 70);
+}
+
+.track:hover .number,
+.isPlaying .number {
+    opacity: 1;
+    color: rgb(200, 70, 70);
 }
 
 .duration {
@@ -18,10 +30,7 @@
     opacity: 0.2;
     display: inline-block;
     width: 20px;
-}
-
-.isPlaying .number {
-    animation: pulse 3s ease infinite alternate;
+    transition: color, opacity 250ms ease;
 }
 
 .title {
@@ -29,14 +38,4 @@
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
-}
-
-@keyframes pulse {
-    from {
-        opacity: 0.2;
-    }
-
-    to {
-        opacity: 0.8;
-    }
 }
