@@ -6,8 +6,8 @@ import socialLinks from '../data/pages/social.json';
 import type {Section, Track} from '../types';
 
 
-const DATA_MAP: {[key: string]: Section[]} = {
-    [PAGE_IDS.MAIN]: mainPage,
+const DATA_MAP = {
+    [PAGE_IDS.MAIN]: mainPage as Section[],
 };
 
 

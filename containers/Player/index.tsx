@@ -1,9 +1,9 @@
 import Player from '../../components/Player';
-import {Track} from '../../types';
+import {TrackState} from '../../types';
 
 
 type Props = {
-    tracks: Track[],
+    tracks: TrackState[],
     onPlay: (id: number) => void,
 };
 

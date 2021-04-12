@@ -1,10 +1,10 @@
 export type Section = {
-    image?: string,
-    video?: string,
     title: string,
     description: string[],
     playlist?: string,
     links?: {[k: string]: string},
+    image?: string,
+    video?: string,
 };
 
 export type Track = {
