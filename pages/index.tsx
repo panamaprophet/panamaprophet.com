@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import Section from '../components/Section';
 import Player from '../containers/Player';
 import useAudio from '../hooks/useAudio';
-import {getPageDataById, getSocialLinks, getTracksData, getEnv} from '../resolvers';
+import {getEnv, getPageDataById, getSocialLinks, getTracksData} from '../resolvers';
 import {getAlignByIndex, mapTracksToState, getTracksByPlaylist, getPlaylists} from '../helpers';
 import {PAGE_IDS} from '../constants';
 
@@ -64,7 +64,7 @@ export const getStaticProps = async (context: AppContext) => {
         props: {
             data,
             links: await getSocialLinks(),
-            tracks: await getTracksData(getPlaylists(data), env.clientId),
+            tracks: await getTracksData(getPlaylists(data)),
         },
         revalidate: env.revalidationInterval,
     };
