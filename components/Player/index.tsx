@@ -38,7 +38,7 @@ const getTrackNumberByIndex = (index: number) => {
 };
 
 
-const Track = ({id, index, url, title, duration, isPlaying, onPlay}: TrackProps) => (
+const Track = ({ id, index, url, title, duration, isPlaying, onPlay }: TrackProps) => (
     <div onClick={() => onPlay(id)} key={url} className={[
         styles.track,
         isPlaying && styles.isPlaying,
@@ -50,7 +50,7 @@ const Track = ({id, index, url, title, duration, isPlaying, onPlay}: TrackProps)
 );
 
 
-const Player = ({tracks}: PlayerProps) => {
+const Player = ({ tracks }: PlayerProps) => {
     if (!tracks || tracks.length === 0) {
         return null;
     }

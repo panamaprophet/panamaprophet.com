@@ -4,12 +4,12 @@ import Footer from '../components/Footer';
 import Section from '../components/Section';
 import Player from '../containers/Player';
 import useAudio from '../hooks/useAudio';
-import {getEnv, getPageDataById, getSocialLinks, getTracksData} from '../resolvers';
-import {getAlignByIndex, mapTracksToState, getTracksByPlaylist, getPlaylists} from '../helpers';
-import {PAGE_IDS} from '../constants';
 
-import type {AppContext} from 'next/app';
-import type {Section as SectionType, Track} from '../types';
+import { getEnv, getPageDataById, getSocialLinks, getTracksData } from '../resolvers';
+import { getAlignByIndex, mapTracksToState, getTracksByPlaylist, getPlaylists } from '../helpers';
+import { PAGE_IDS } from '../constants';
+
+import type { Section as SectionType, Track } from '../types';
 
 import styles from '../styles/Main.module.css';
 
@@ -17,7 +17,7 @@ import styles from '../styles/Main.module.css';
 type Props = {
     id: string,
     data: SectionType[],
-    links: {[key: string]: string},
+    links: { [key: string]: string },
     tracks: Track[],
 };
 
@@ -32,7 +32,7 @@ export default function Main({
 
     return (
         <div className={styles.root}>
-            <Meta />
+            <Meta title="Prophet P" description="the most authentic russkiy roots" />
             <Header scrollTarget={id} />
             <main id={id}>
                 {data && data.map((item, index) => (
@@ -50,14 +50,12 @@ export default function Main({
 };
 
 
-export const getStaticProps = async (context: AppContext) => {
+export const getStaticProps = async () => {
     const env = await getEnv();
     const data = await getPageDataById(PAGE_IDS.MAIN);
 
     if (!data) {
-        return {
-            notFound: true,
-        };
+        return { notFound: true };
     }
 
     return {

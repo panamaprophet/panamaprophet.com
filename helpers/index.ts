@@ -1,4 +1,4 @@
-import {Track, TrackState, Section} from '../types';
+import { Track, TrackState, Section } from '../types';
 
 
 export const getAlignByIndex = (index: number) => index % 2 ? 'right' : 'left';

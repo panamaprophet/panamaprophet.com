@@ -2,7 +2,7 @@ export type Section = {
     title: string,
     description: string[],
     playlist?: string,
-    links?: {[k: string]: string},
+    links?: { [k: string]: string },
     image?: string,
     video?: string,
 };

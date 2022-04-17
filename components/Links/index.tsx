@@ -1,4 +1,4 @@
-import Icon, {isIconType} from '../Icon';
+import Icon, { isIconType } from '../Icon';
 import styles from './Links.module.css';
 
 
@@ -15,11 +15,11 @@ const COMPACT_ICON_SIZE = {
 
 type Props = {
     layout?: 'compact' | 'default',
-    urls: {[key: string]: string},
+    urls: { [key: string]: string },
 };
 
 
-const Links = ({layout = 'default', urls}: Props) => {
+const Links = ({ layout = 'default', urls }: Props) => {
     const isCompact = layout === 'compact';
     const iconSize = isCompact ? COMPACT_ICON_SIZE : DEFAULT_ICON_SIZE;
 

@@ -1,5 +1,5 @@
 import { getEnv } from './index';
-import type {Track} from '../types';
+import type { Track } from '../types';
 
 
 type SoundCloudTrack = {
@@ -11,7 +11,7 @@ type SoundCloudTrack = {
 
 type AccessToken = {
     access_token?: string,
-    errors?: ({message: string})[],
+    errors?: ({ message: string })[],
 };
 
 
@@ -53,7 +53,7 @@ export const getTracksData = async (urls: string[]): Promise<Track[] | null> => 
 
     const tracks = groups.reduce((result: Track[], group: SoundCloudTrack[], index) => ([
         ...result,
-        ...group.map(({id, title, duration, stream_url}) => ({
+        ...group.map(({ id, title, duration, stream_url }) => ({
             id,
             title,
             duration,

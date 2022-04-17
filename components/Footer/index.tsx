@@ -3,11 +3,11 @@ import styles from './Footer.module.css';
 
 
 type Props = {
-    links: {[key: string]: string},
+    links: { [key: string]: string },
 };
 
 
-const Footer = ({links}: Props) => (
+const Footer = ({ links }: Props) => (
     <footer className={styles.root}>
         {links && <Links urls={links} />}
     </footer>

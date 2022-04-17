@@ -1,4 +1,4 @@
-import {ReactNode} from 'react';
+import { ReactNode } from 'react';
 import Image from 'next/image';
 import Links from '../Links';
 
@@ -8,7 +8,7 @@ import styles from './Section.module.css';
 type Props = {
     title: string,
     description: string[],
-    links?: {[k: string]: string},
+    links?: { [k: string]: string },
     image?: string,
     video?: string,
     align: 'left' | 'right',
@@ -37,13 +37,13 @@ const Section = ({
     ].join(' ')}>
         <div className={styles.info}>
             {image && (<div className={styles.mediaContainer}>
-                    <Image
-                        className={styles.image}
-                        src={image}
-                        alt={title}
-                        width={IMAGE_DEFAULTS.width}
-                        height={IMAGE_DEFAULTS.height}
-                    />
+                <Image
+                    className={styles.image}
+                    src={image}
+                    alt={title}
+                    width={IMAGE_DEFAULTS.width}
+                    height={IMAGE_DEFAULTS.height}
+                />
             </div>)}
 
             {video && (<div className={[

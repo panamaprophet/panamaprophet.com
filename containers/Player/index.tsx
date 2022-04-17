@@ -1,5 +1,5 @@
 import Player from '../../components/Player';
-import {TrackState} from '../../types';
+import { TrackState } from '../../types';
 
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 };
 
 
-const PlayerContainer = ({tracks, onPlay}: Props) => {
+const PlayerContainer = ({ tracks, onPlay }: Props) => {
     const trackProps = tracks.map((track, index) => ({
         ...track,
         onPlay,

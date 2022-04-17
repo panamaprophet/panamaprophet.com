@@ -30,7 +30,7 @@ type Props = {
 export const isIconType = (value: any): value is IconType => value in TYPE_TO_ICON_MAP;
 
 
-const TYPE_TO_ICON_MAP: {[k in IconType]: { src: string }} = {
+const TYPE_TO_ICON_MAP: { [k in IconType]: { src: string } } = {
     instagram: Instagram,
     soundcloud: Soundcloud,
     vkontakte: Vkontakte,
