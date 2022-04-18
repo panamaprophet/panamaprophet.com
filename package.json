@@ -1,13 +1,14 @@
 {
   "name": "panamaprophet.com",
   "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 80",
     "env:export": "set -a && source .env && set +a",
-    "docker:build": "yarn env:export && docker build -t panamaprophet.com --build-arg CLIENT_ID --build-arg CLIENT_SECRET --build-arg REVALIDATION_INTERVAL .",
-    "docker:run": "docker run -dp 3000:3000 panamaprophet.com"
+    "docker:build": "docker build -t panamaprophet/website:latest .",
+    "docker:run": "docker run -dp 80:80 --env-file .env panamaprophet/website:latest"
   },
   "dependencies": {
     "next": "12",

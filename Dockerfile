@@ -8,6 +8,6 @@ COPY next.config.js .
 
 RUN yarn install --production
 
-EXPOSE 3000
+EXPOSE 80
 
 CMD ["yarn", "start"]
