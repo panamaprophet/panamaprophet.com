@@ -2,13 +2,13 @@ import { ReactNode } from 'react';
 import styles from '../Section.module.css';
 
 
-interface TextSectionProps {
+interface Props {
     title?: string,
     children: ReactNode,
 }
 
 
-export const TextSection = ({ title = '', children }: TextSectionProps) => (
+export const Text = ({ title = '', children }: Props) => (
     <div className={styles.description}>
         {title && <h2 className={styles.title}>{title}</h2>}
         {children}

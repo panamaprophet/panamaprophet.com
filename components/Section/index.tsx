@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import Links from '../Links';
-import Sections from './Sections';
+import { Text, Image, Video, Description } from './components';
 import styles from './Section.module.css';
 
 
@@ -8,35 +8,28 @@ type Props = {
     title: string,
     description: string[],
     links?: { [k: string]: string },
-    image?: string,
-    video?: string,
+    image?: { src: string },
+    video?: { src: string },
     align: 'left' | 'right',
     children?: ReactNode,
 };
 
 
-const Section = ({
-    image,
-    title,
-    video,
-    links,
-    description,
-    align = 'left',
-    children,
-}: Props) => (
+const Section = (props: Props) => (
     <section className={[
         styles.root,
-        styles[align],
+        styles[props.align],
     ].join(' ')}>
         <div className={styles.info}>
-            {image && <Sections.Image src={image} alt={title} />}
-            {video && <Sections.Video src={video} />}
-            <Sections.Text title={title}>
-                {description && description.map((line, index) => <p key={index}>{line}</p>)}
-                {links && <Links layout="compact" urls={links} />}
-            </Sections.Text>
+            {props.image && <Image {...props.image} alt={props.title} />}
+            {props.video && <Video {...props.video} />}
+
+            <Text title={props.title}>
+                {props.description && <Description text={props.description} />}
+                {props.links && <Links layout="compact" urls={props.links} />}
+            </Text>
         </div>
-        {children}
+        {props.children}
     </section>
 );
 

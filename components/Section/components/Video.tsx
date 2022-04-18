@@ -1,14 +1,14 @@
 import styles from '../Section.module.css';
 
 
-interface VideoSectionProps {
+interface Props {
     src: string,
     width?: number,
     height?: number,
 }
 
 
-export const VideoSection = ({ src, width = 420, height = 420 }: VideoSectionProps) => (
+export const Video = ({ src, width = 420, height = 420 }: Props) => (
     <div className={[
         styles.mediaContainer,
         styles.videoContainer,

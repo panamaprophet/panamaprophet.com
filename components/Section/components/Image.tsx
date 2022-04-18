@@ -1,8 +1,8 @@
-import Image from 'next/image';
+import NextImage from 'next/image';
 import styles from '../Section.module.css';
 
 
-interface ImageSectionProps {
+interface Props {
     src: string,
     alt?: string,
     width?: number,
@@ -10,9 +10,9 @@ interface ImageSectionProps {
 }
 
 
-export const ImageSection = ({ src, alt = '', width = 420, height = 420 }: ImageSectionProps) => (
+export const Image = ({ src, alt = '', width = 420, height = 420 }: Props) => (
     <div className={styles.mediaContainer}>
-        <Image
+        <NextImage
             className={styles.image}
             src={src}
             alt={alt}
