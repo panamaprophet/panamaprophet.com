@@ -3,5 +3,5 @@ import '../styles/globals.css';
 
 
 export default function Application({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return <Component {...pageProps} />;
 }

@@ -34,8 +34,8 @@ export const getAccessToken = (clientId: string, clientSecret: string, grantType
 };
 
 export const getTracksData = async (urls: string[]): Promise<Track[] | null> => {
-    const env = await getEnv();
-    const { access_token, errors } = await getAccessToken(env.clientId, env.clientSecret);
+    const { clientId, clientSecret } = getEnv();
+    const { access_token, errors } = await getAccessToken(clientId, clientSecret);
 
     if (!access_token || errors) {
         return null;
@@ -57,7 +57,7 @@ export const getTracksData = async (urls: string[]): Promise<Track[] | null> => 
             id,
             title,
             duration,
-            url: `${stream_url}?client_id=${env.clientId}`,
+            url: `${stream_url}?client_id=${clientId}`,
             playlist: urls[index],
         }), [])
     ]), []);

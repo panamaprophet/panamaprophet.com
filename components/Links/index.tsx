@@ -31,12 +31,12 @@ const Links = ({ layout = 'default', urls }: Props) => {
             layout === 'compact' && styles.compact,
         ].join(' ')}>
             {keys.map(key => (
-                <a key={key} href={urls[key]} target="_blank" className={styles.link}>
+                <a key={key} href={urls[key]} target="_blank" rel="noreferrer" className={styles.link}>
                     {isIconType(key) ? <Icon type={key} {...iconSize} /> : key}
                 </a>
             ))}
         </div>
     );
-}
+};
 
 export default Links;

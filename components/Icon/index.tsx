@@ -8,6 +8,7 @@ import Apple from './images/apple.svg';
 import YoutubeMusic from './images/youtube-music.svg';
 
 import styles from './Icon.module.css';
+import Image from 'next/image';
 
 
 type IconType =
@@ -54,11 +55,12 @@ const Icon = ({
 
     const source = TYPE_TO_ICON_MAP[type];
 
-    return (<img
+    return (<Image
         className={classes}
         src={source.src}
         width={width}
         height={height}
+        alt={type}
     />);
 };
 
