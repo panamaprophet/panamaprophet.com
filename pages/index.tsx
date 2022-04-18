@@ -1,5 +1,4 @@
 import Header from '../components/Header';
-import Meta from '../components/Meta';
 import Footer from '../components/Footer';
 import Section from '../components/Section';
 import Player from '../containers/Player';
@@ -32,7 +31,6 @@ export default function Main({
 
     return (
         <div className={styles.root}>
-            <Meta title="Prophet P" description="the most authentic russkiy roots" />
             <Header scrollTarget={id} />
             <main id={id}>
                 {data && data.map((item, index) => (

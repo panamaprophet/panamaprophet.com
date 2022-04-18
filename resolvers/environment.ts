@@ -6,7 +6,7 @@ type Environment = {
 
 
 export const getEnv = async (): Promise<Environment> => ({
-    clientId: String(process.env.clientId),
-    clientSecret: String(process.env.clientSecret),
-    revalidationInterval: Number(process.env.revalidationInterval),
+    clientId: String(process.env.CLIENT_ID),
+    clientSecret: String(process.env.CLIENT_SECRET),
+    revalidationInterval: Number(process.env.REVALIDATION_INTERVAL),
 });
