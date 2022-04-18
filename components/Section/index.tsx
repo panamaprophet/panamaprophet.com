@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
-import Image from 'next/image';
 import Links from '../Links';
-
+import Sections from './Sections';
 import styles from './Section.module.css';
 
 
@@ -13,12 +12,6 @@ type Props = {
     video?: string,
     align: 'left' | 'right',
     children?: ReactNode,
-};
-
-
-const IMAGE_DEFAULTS = {
-    width: 420,
-    height: 420,
 };
 
 
@@ -36,37 +29,13 @@ const Section = ({
         styles[align],
     ].join(' ')}>
         <div className={styles.info}>
-            {image && (<div className={styles.mediaContainer}>
-                <Image
-                    className={styles.image}
-                    src={image}
-                    alt={title}
-                    width={IMAGE_DEFAULTS.width}
-                    height={IMAGE_DEFAULTS.height}
-                />
-            </div>)}
-
-            {video && (<div className={[
-                styles.mediaContainer,
-                styles.videoContainer,
-            ].join(' ')}>
-                <iframe
-                    src={video}
-                    width={IMAGE_DEFAULTS.width}
-                    height={IMAGE_DEFAULTS.height}
-                    frameBorder="0"
-                />
-            </div>)}
-
-            <div className={styles.description}>
-                {title && <h2 className={styles.title}>{title}</h2>}
-
+            {image && <Sections.Image src={image} alt={title} />}
+            {video && <Sections.Video src={video} />}
+            <Sections.Text title={title}>
                 {description && description.map((line, index) => <p key={index}>{line}</p>)}
-
                 {links && <Links layout="compact" urls={links} />}
-            </div>
+            </Sections.Text>
         </div>
-
         {children}
     </section>
 );
