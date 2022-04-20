@@ -14,12 +14,3 @@ export type Track = {
     url: string,
     playlist: string,
 };
-
-export type TrackState = Track & {
-    isPlaying: boolean,
-};
-
-export type TrackAudioState = {
-    id: number,
-    audio: HTMLAudioElement,
-};

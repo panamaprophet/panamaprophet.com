@@ -1,74 +1,56 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Track } from '../../types';
 
-import type {Track, TrackState, TrackAudioState} from '../../types';
+
+type TrackState = Track & { isPlaying: boolean };
 
 
-const mapTracksToAudio = (tracks: Track[]): TrackAudioState[] => tracks.map(track => {
-    const audioTrack = new Audio();
+const createInitialState = (tracks: Track[]) => tracks.map(track => ({ ...track, isPlaying: false }));
 
-    audioTrack.preload = 'none';
-    audioTrack.src =  track.url;
-
-    return {
-        id: track.id,
-        audio: audioTrack,
-    };
-});
-
-const createInitialState = (tracks: Track[]): TrackState[] => tracks.map(track => ({
-    ...track,
-    isPlaying: false,
-}));
-
-const setPlayState = (id: number, state: TrackState[]): TrackState[] => {
+const setPlayState = (id: number, state: TrackState[]) => {
     const result = [...state];
-    const targetIndex = state.findIndex(item => item.id === id);
-    const currentIndex = state.findIndex(item => item.isPlaying === true);
 
-    if (currentIndex !== -1 && currentIndex !== targetIndex) {
-        result[targetIndex].isPlaying = true;
+    const nextIndex = state.findIndex(track => track.id === id);
+    const currentIndex = state.findIndex(track => track.isPlaying);
+
+    if (currentIndex !== -1) {
         result[currentIndex].isPlaying = false;
-    } else if (currentIndex !== -1) {
-        result[targetIndex].isPlaying = false;
-    } else {
-        result[targetIndex].isPlaying = true;
+    }
+
+    if (nextIndex !== -1) {
+        result[nextIndex].isPlaying = nextIndex !== currentIndex;
     }
 
     return result;
 };
 
 
-export const useAudio = (tracks: Track[]): [
-    TrackState[],
-    (id: number) => void
-] => {
-    const [audio, setAudio] = useState<TrackAudioState[]>([]);
-    const [state, setState] = useState(createInitialState(tracks));
-    const setPlayStateById = (id: number): void => setState(setPlayState(id, state));
+export const useAudio = (urls: Track[]): [TrackState[], (id: number) => void] => {
+    const [tracks, setState] = useState(createInitialState(urls));
+    const currentTrack = useRef<HTMLAudioElement | null>(null);
 
-    useEffect(() => setAudio(mapTracksToAudio(tracks)), []);
+    const setStateById = (id: number) => setState(setPlayState(id, tracks));
 
     useEffect(() => {
-        audio.forEach((item, index) => state[index].isPlaying
-            ? item.audio.play()
-            : item.audio.pause()
-        );
-    }, [audio, state]);
+        const currentAudio = currentTrack.current;
+        const next = tracks.find(track => track.isPlaying);
 
-    useEffect(() => {
-        audio.forEach((item, index) => item.audio.addEventListener('ended', () => {
-            setPlayStateById(item.id);
+        if (currentAudio) {
+            currentAudio.pause();
+        }
 
-            const currentTrack = state[index];
-            const playlistTracks = state.filter(track => track.playlist === currentTrack?.playlist);
-            const currentIndex = playlistTracks.findIndex(track => track.id === currentTrack?.id);
-            const nextTrack = playlistTracks[currentIndex + 1];
+        if (next) {
+            currentTrack.current = new Audio(next.url);
+            currentTrack.current.play();
+            currentTrack.current.addEventListener('ended', () => {
+                const currentTrackIndex = tracks.findIndex(track => track.isPlaying);
+                const nextTrackIndex = (currentTrackIndex + 1) % tracks.length;
+                const nextTrackId = tracks[nextTrackIndex].id;
 
-            if (nextTrack) {
-                setPlayStateById(nextTrack.id);
-            }
-        }));
-    }, [audio]);
+                setState(setPlayState(nextTrackId, tracks));
+            });
+        }
+    }, [tracks]);
 
-    return [state, setPlayStateById];
-};
+    return [tracks, setStateById];
+}

@@ -6,7 +6,7 @@ import { Player } from '../components/Player';
 import { Column, Row } from '../components/Layout';
 
 import { getPageDataById, getSocialLinks, getTracksData } from '../resolvers';
-import { getPlaylists, getTracksFromStateByPlaylist } from '../helpers';
+import { getPlaylists, isInPlaylist } from '../helpers';
 
 import { useAudio } from '../hooks/useAudio';
 
@@ -39,7 +39,7 @@ export default function Main({ data, tracks }: Props) {
                     </Row>
                     <Row>
                         {props.playlist && (<Player
-                            tracks={getTracksFromStateByPlaylist(props.playlist, state)}
+                            tracks={state.filter(isInPlaylist(props.playlist))}
                             onPlay={setTrackState}
                         />)}
                     </Row>
