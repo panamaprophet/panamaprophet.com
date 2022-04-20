@@ -4,7 +4,7 @@ import * as Types from '../types';
 
 
 const DATA_MAP: { [k: string]: Types.Section[] } = {
-    main: mainPage as Types.Section[],
+    main: mainPage as unknown as Types.Section[],
 }
 
 
