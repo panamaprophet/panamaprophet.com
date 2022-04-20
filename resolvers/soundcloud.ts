@@ -4,9 +4,24 @@ import { Track } from '../types';
 
 type AccessToken = {
     access_token?: string,
+    refresh_token?: string,
+    expires_in?: number,
     errors?: ({ message: string })[],
 };
 
+
+const refreshAccessToken = (clientId: string, clientSecret: string, refreshToken: string, grantType = 'refresh_token') => {
+    const options = {
+        headers: {
+            'accept': 'application/json;charset=utf-8',
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        method: 'POST',
+        body: `client_id=${clientId}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=${grantType}`,
+    };
+
+    return fetch('https://api.soundcloud.com/oauth2/token', options).then(response => response.json());
+};
 
 const resolveAccessToken = (clientId: string, clientSecret: string, grantType = 'client_credentials'): Promise<AccessToken> => {
     const options = {
@@ -18,7 +33,7 @@ const resolveAccessToken = (clientId: string, clientSecret: string, grantType = 
         body: `client_id=${clientId}&client_secret=${clientSecret}&grant_type=${grantType}`,
     };
 
-    return fetch(`https://api.soundcloud.com/oauth2/token`, options).then(response => response.json());
+    return fetch('https://api.soundcloud.com/oauth2/token', options).then(response => response.json());
 };
 
 const resolveUrl = (access_token: string) => (url: string) => {
@@ -41,12 +56,14 @@ const resolveStreamUrls = (access_token: string) => (track: Track): Promise<stri
         .then(response => response.http_mp3_128_url);
 }
 
+
 export const getTracksData = async (urls: string[]): Promise<Track[] | null> => {
     const { clientId, clientSecret } = getEnv();
     const { access_token, errors } = await resolveAccessToken(clientId, clientSecret);
 
     if (!access_token || errors) {
-        return null;
+        console.log('an error has happened during resolving the soundcloud access token', errors);
+        return [];
     }
 
     const resolvedTracks = await Promise.all(urls.map(resolveUrl(access_token)));

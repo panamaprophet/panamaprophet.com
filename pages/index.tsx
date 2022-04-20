@@ -63,5 +63,6 @@ export const getServerSideProps = async () => {
             links: getSocialLinks(),
             tracks: await getTracksData(getPlaylists(data)),
         },
+        // revalidate: 86400,
     };
 };
