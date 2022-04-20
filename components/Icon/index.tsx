@@ -7,7 +7,7 @@ import Spotify from './images/spotify.svg';
 import Apple from './images/apple.svg';
 import YoutubeMusic from './images/youtube-music.svg';
 
-import styles from './Icon.module.css';
+import styles from './index.module.css';
 import Image from 'next/image';
 
 

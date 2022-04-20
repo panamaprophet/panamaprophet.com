@@ -1,55 +1,57 @@
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Section from '../components/Section';
-import Player from '../containers/Player';
-import useAudio from '../hooks/useAudio';
+import { Text } from '../components/Text';
+import { Video } from '../components/Video';
+import { Image } from '../components/Image';
+import { Links } from '../components/Links';
+import { Player } from '../components/Player';
+import { Column, Row } from '../components/Layout';
 
 import { getPageDataById, getSocialLinks, getTracksData } from '../resolvers';
-import { getAlignByIndex, mapTracksToState, getTracksByPlaylist, getPlaylists } from '../helpers';
-import { PAGE_IDS } from '../constants';
+import { getPlaylists, getTracksFromStateByPlaylist } from '../helpers';
 
-import type { Section as SectionType, Track } from '../types';
+import { useAudio } from '../hooks/useAudio';
 
-import styles from '../styles/Main.module.css';
+import * as Types from '../types';
 
 
-type Props = {
+interface Props {
     id: string,
-    data: SectionType[],
+    data: Types.Section[],
     links: { [key: string]: string },
-    tracks: Track[],
+    tracks: Types.Track[],
 };
 
 
-export default function Main({
-    id = PAGE_IDS.MAIN,
-    data,
-    links,
-    tracks,
-}: Props) {
+export default function Main({ data, tracks }: Props) {
     const [state, setTrackState] = useAudio(tracks);
 
     return (
-        <div className={styles.root}>
-            <Header scrollTarget={id} />
-            <main id={id}>
-                {data && data.map((item, index) => (
-                    <Section key={index} align={getAlignByIndex(index)} {...item}>
-                        {item.playlist && (<Player
-                            tracks={mapTracksToState(getTracksByPlaylist(tracks, item.playlist), state)}
+        <>
+            {data.map((props, index) => (
+                <Column key={index}>
+                    <Row direction={index % 2 ? 'straight' : 'reverse'}>
+                        {props.image && <Image {...props.image} alt={props.title} />}
+                        {props.video && <Video {...props.video} />}
+
+                        <Text title={props.title}>
+                            {props.description.map(line => <p key={line}>{line}</p>)}
+                            {props.links && <Links urls={props.links} />}
+                        </Text>
+                    </Row>
+                    <Row>
+                        {props.playlist && (<Player
+                            tracks={getTracksFromStateByPlaylist(props.playlist, state)}
                             onPlay={setTrackState}
                         />)}
-                    </Section>
-                ))}
-            </main>
-            <Footer links={links} />
-        </div>
+                    </Row>
+                </Column>
+            ))}
+        </>
     );
 };
 
 
 export const getServerSideProps = async () => {
-    const data = await getPageDataById(PAGE_IDS.MAIN);
+    const data = getPageDataById('main');
 
     if (!data) {
         return { notFound: true };
@@ -58,7 +60,7 @@ export const getServerSideProps = async () => {
     return {
         props: {
             data,
-            links: await getSocialLinks(),
+            links: getSocialLinks(),
             tracks: await getTracksData(getPlaylists(data)),
         },
     };

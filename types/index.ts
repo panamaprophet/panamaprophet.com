@@ -3,8 +3,8 @@ export type Section = {
     description: string[],
     playlist?: string,
     links?: { [k: string]: string },
-    image?: string,
-    video?: string,
+    image?: { src: string },
+    video?: { src: string },
 };
 
 export type Track = {

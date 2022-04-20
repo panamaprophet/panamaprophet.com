@@ -1,42 +1,23 @@
 import Icon, { isIconType } from '../Icon';
-import styles from './Links.module.css';
-
-
-const DEFAULT_ICON_SIZE = {
-    width: 32,
-    height: 32,
-};
-
-const COMPACT_ICON_SIZE = {
-    width: 16,
-    height: 16,
-};
+import styles from './index.module.css';
 
 
 type Props = {
-    layout?: 'compact' | 'default',
+    size?: number,
     urls: { [key: string]: string },
 };
 
 
-const Links = ({ layout = 'default', urls }: Props) => {
-    const isCompact = layout === 'compact';
-    const iconSize = isCompact ? COMPACT_ICON_SIZE : DEFAULT_ICON_SIZE;
-
+export const Links = ({ size = 16, urls }: Props) => {
     const keys = Object.keys(urls);
 
     return (
-        <div className={[
-            styles.root,
-            layout === 'compact' && styles.compact,
-        ].join(' ')}>
+        <div className={styles.root}>
             {keys.map(key => (
                 <a key={key} href={urls[key]} target="_blank" rel="noreferrer" className={styles.link}>
-                    {isIconType(key) ? <Icon type={key} {...iconSize} /> : key}
+                    {isIconType(key) ? <Icon type={key} width={size} height={size} /> : key}
                 </a>
             ))}
         </div>
     );
 };
-
-export default Links;

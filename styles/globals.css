@@ -19,6 +19,10 @@ body {
     font-weight: 300;
     background: #fff;
     color: #555;
+
+    min-height: 100vh;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 ::selection {

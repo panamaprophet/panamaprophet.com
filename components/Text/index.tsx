@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import styles from '../Section.module.css';
+import styles from './index.module.css';
 
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 
 
 export const Text = ({ title = '', children }: Props) => (
-    <div className={styles.description}>
+    <div className={styles.root}>
         {title && <h2 className={styles.title}>{title}</h2>}
         {children}
     </div>

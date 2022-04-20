@@ -1,5 +1,4 @@
 import NextImage from 'next/image';
-import styles from '../Section.module.css';
 
 
 interface Props {
@@ -11,13 +10,13 @@ interface Props {
 
 
 export const Image = ({ src, alt = '', width = 420, height = 420 }: Props) => (
-    <div className={styles.mediaContainer}>
+    <div>
         <NextImage
-            className={styles.image}
             src={src}
             alt={alt}
             width={width}
             height={height}
+            layout="fixed"
         />
     </div>
 );

@@ -1,17 +1,9 @@
-import Links from '../Links';
-import styles from './Footer.module.css';
+import { ReactNode } from 'react';
+import styles from './index.module.css';
 
 
-type Props = {
-    links: { [key: string]: string },
-};
-
-
-const Footer = ({ links }: Props) => (
+export const Footer = ({ children }: { children: ReactNode }) => (
     <footer className={styles.root}>
-        <Links urls={links} />
+        {children}
     </footer>
 );
-
-
-export default Footer;

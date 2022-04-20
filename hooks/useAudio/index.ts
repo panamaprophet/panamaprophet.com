@@ -38,7 +38,7 @@ const setPlayState = (id: number, state: TrackState[]): TrackState[] => {
 };
 
 
-const useAudio = (tracks: Track[]): [
+export const useAudio = (tracks: Track[]): [
     TrackState[],
     (id: number) => void
 ] => {
@@ -72,6 +72,3 @@ const useAudio = (tracks: Track[]): [
 
     return [state, setPlayStateById];
 };
-
-
-export default useAudio;
