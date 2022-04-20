@@ -28,7 +28,7 @@ export default function Main({ data, tracks }: Props) {
         <>
             {data.map((props, index) => (
                 <Column key={index}>
-                    <Row direction={index % 2 ? 'straight' : 'reverse'}>
+                    <Row direction={index % 2 ? 'reverse' : 'straight'}>
                         {props.image && <Image {...props.image} alt={props.title} />}
                         {props.video && <Video {...props.video} />}
 
