@@ -1,13 +1,6 @@
 import { getEnv } from './index';
-import type { Track } from '../types';
+import { Track } from '../types';
 
-
-type SoundCloudTrack = {
-    id: string,
-    title: string,
-    duration: string,
-    stream_url: string,
-};
 
 type AccessToken = {
     access_token?: string,
@@ -15,12 +8,7 @@ type AccessToken = {
 };
 
 
-const BASE_URL = 'https://api.soundcloud.com';
-const ENDPOINT_TOKEN = '/oauth2/token';
-const ENDPOINT_RESOLVE = '/resolve';
-
-
-export const getAccessToken = (clientId: string, clientSecret: string, grantType = 'client_credentials'): Promise<AccessToken> => {
+const resolveAccessToken = (clientId: string, clientSecret: string, grantType = 'client_credentials'): Promise<AccessToken> => {
     const options = {
         headers: {
             'accept': 'application/json;charset=utf-8',
@@ -30,37 +18,49 @@ export const getAccessToken = (clientId: string, clientSecret: string, grantType
         body: `client_id=${clientId}&client_secret=${clientSecret}&grant_type=${grantType}`,
     };
 
-    return fetch(`${BASE_URL}${ENDPOINT_TOKEN}`, options).then(response => response.json());
+    return fetch(`https://api.soundcloud.com/oauth2/token`, options).then(response => response.json());
 };
 
-export const getTracksData = async (urls: string[]): Promise<Track[] | null> => {
-    const { clientId, clientSecret } = getEnv();
-    const { access_token, errors } = await getAccessToken(clientId, clientSecret);
-
-    if (!access_token || errors) {
-        return null;
-    }
-
+const resolveUrl = (access_token: string) => (url: string) => {
     const headers = {
         'accept': 'application/json;charset=utf-8',
         'Authorization': `OAuth ${access_token}`,
     };
 
-    const requestPromises = urls.map(url => fetch(`${BASE_URL}${ENDPOINT_RESOLVE}?url=${url}`, { headers }).then(response => response.json()));
-    const responses = await Promise.all(requestPromises);
+    return fetch(`https://api.soundcloud.com/resolve?url=${url}`, { headers }).then(response => response.json());
+};
 
-    const groups = responses.map(data => data.kind === 'playlist' ? data.tracks : [data]);
+const resolveStreamUrls = (access_token: string) => (track: Track): Promise<string> => {
+    const headers = {
+        'accept': 'application/json;charset=utf-8',
+        'Authorization': `OAuth ${access_token}`,
+    };
 
-    const tracks = groups.reduce((result: Track[], group: SoundCloudTrack[], index) => ([
-        ...result,
-        ...group.map(({ id, title, duration, stream_url }) => ({
-            id,
-            title,
-            duration,
-            url: `${stream_url}?client_id=${clientId}`,
-            playlist: urls[index],
-        }), [])
-    ]), []);
+    return fetch(`https://api.soundcloud.com/tracks/${track.id}/streams`, { headers })
+        .then(response => response.json())
+        .then(response => response.http_mp3_128_url);
+}
 
-    return tracks;
+export const getTracksData = async (urls: string[]): Promise<Track[] | null> => {
+    const { clientId, clientSecret } = getEnv();
+    const { access_token, errors } = await resolveAccessToken(clientId, clientSecret);
+
+    if (!access_token || errors) {
+        return null;
+    }
+
+    const resolvedTracks = await Promise.all(urls.map(resolveUrl(access_token)));
+
+    const tracks: Track[] = resolvedTracks.reduce((result, item, index) => {
+        const items: Track[] = item.kind === 'playlist' ? item.tracks : [item];
+
+        return [
+            ...result,
+            ...items.map(({ id, title, duration }) => ({ id, title, duration, playlist: urls[index] }))
+        ];
+    }, []);
+
+    const streams = await Promise.all(tracks.map(resolveStreamUrls(access_token)));
+
+    return tracks.map((track, index) => ({ ...track, url: streams[index] }));
 };
