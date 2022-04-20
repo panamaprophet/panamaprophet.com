@@ -6,10 +6,10 @@
     "dev": "next dev",
     "lint": "next lint",
     "build": "next build",
-    "start": "next start -p 80",
+    "start": "next start",
     "env:export": "set -a && source .env && set +a",
     "docker:build": "docker build -t panamaprophet/website:latest .",
-    "docker:run": "docker run -dp 80:80 --env-file .env panamaprophet/website:latest"
+    "docker:run": "docker run -dp 80:3000 --env-file .env panamaprophet/website:latest"
   },
   "dependencies": {
     "next": "12",
