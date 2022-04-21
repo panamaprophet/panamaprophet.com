@@ -40,15 +40,19 @@ export const useAudio = (urls: Track[]): [TrackState[], (id: number) => void] =>
         }
 
         if (next) {
-            currentTrack.current = new Audio(next.url);
-            currentTrack.current.play();
-            currentTrack.current.addEventListener('ended', () => {
-                const currentTrackIndex = tracks.findIndex(track => track.isPlaying);
-                const nextTrackIndex = (currentTrackIndex + 1) % tracks.length;
-                const nextTrackId = tracks[nextTrackIndex].id;
+            fetch(`/api/stream/${next.id}`)
+                .then(response => response.json())
+                .then(({ url }) => {
+                    currentTrack.current = new Audio(url);
+                    currentTrack.current.play();
+                    currentTrack.current.addEventListener('ended', () => {
+                        const currentTrackIndex = tracks.findIndex(track => track.isPlaying);
+                        const nextTrackIndex = (currentTrackIndex + 1) % tracks.length;
+                        const nextTrackId = tracks[nextTrackIndex].id;
 
-                setState(setPlayState(nextTrackId, tracks));
-            });
+                        setState(setPlayState(nextTrackId, tracks));
+                    });
+                });
         }
     }, [tracks]);
 

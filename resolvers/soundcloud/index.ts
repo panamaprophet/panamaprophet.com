@@ -2,7 +2,9 @@ import { Track } from '../../types';
 import { getAccessToken } from './auth';
 
 
-const resolveUrl = (accessToken: string) => (url: string) => {
+export const resolveUrl = async (url: string) => {
+    const accessToken = await getAccessToken();
+
     const headers = {
         'accept': 'application/json;charset=utf-8',
         'Authorization': `OAuth ${accessToken}`,
@@ -11,7 +13,9 @@ const resolveUrl = (accessToken: string) => (url: string) => {
     return fetch(`https://api.soundcloud.com/resolve?url=${url}`, { headers }).then(response => response.json());
 };
 
-const resolveStreamUrls = (accessToken: string) => (track: Track): Promise<string> => {
+export const resolveStreamUrl = async (track: Pick<Track, 'id'>): Promise<string> => {
+    const accessToken = await getAccessToken();
+
     const headers = {
         'accept': 'application/json;charset=utf-8',
         'Authorization': `OAuth ${accessToken}`,
@@ -22,7 +26,6 @@ const resolveStreamUrls = (accessToken: string) => (track: Track): Promise<strin
         .then(response => response.http_mp3_128_url);
 };
 
-
 export const getTracksData = async (urls: string[]): Promise<Track[] | null> => {
     const accessToken = await getAccessToken();
 
@@ -31,7 +34,7 @@ export const getTracksData = async (urls: string[]): Promise<Track[] | null> => 
         return [];
     }
 
-    const resolvedTracks = await Promise.all(urls.map(resolveUrl(accessToken)));
+    const resolvedTracks = await Promise.all(urls.map(resolveUrl));
 
     const tracks: Track[] = resolvedTracks.reduce((result, item, index) => {
         const items: Track[] = item.kind === 'playlist' ? item.tracks : [item];
@@ -42,8 +45,5 @@ export const getTracksData = async (urls: string[]): Promise<Track[] | null> => 
         ];
     }, []);
 
-    const streams = await Promise.all(tracks.map(resolveStreamUrls(accessToken)));
-
-
-    return tracks.map((track, index) => ({ ...track, url: streams[index] }));
+    return tracks;
 };

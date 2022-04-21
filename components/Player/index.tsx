@@ -18,7 +18,7 @@ export const Player = ({ tracks, onPlay }: Props) => {
         <div className={styles.root}>
             {tracks.map((item, index) => (
                 <div
-                    key={item.url}
+                    key={index}
                     onClick={() => onPlay(item.id)}
                     className={[styles.track, item.isPlaying && styles.isPlaying].join(' ')}
                 >
