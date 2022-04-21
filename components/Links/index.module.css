@@ -4,6 +4,7 @@
     align-items: center;
     list-style: none;
     gap: 16px;
+    margin-top: 10px;
 }
 
 .link {

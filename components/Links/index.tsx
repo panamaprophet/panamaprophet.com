@@ -8,7 +8,7 @@ type Props = {
 };
 
 
-export const Links = ({ size = 16, urls }: Props) => {
+export const Links = ({ size = 32, urls }: Props) => {
     const keys = Object.keys(urls);
 
     return (

@@ -34,7 +34,7 @@ const requestToken = (body: { [k: string]: unknown }) => {
             token.access = String(response.access_token);
             token.refresh = String(response.refresh_token);
 
-            setTimeout(refresh, response.expireIn * 1000);
+            setTimeout(refresh, response.expires_in * 1000);
 
             return token.access;
         });
