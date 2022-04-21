@@ -25,8 +25,8 @@ const setPlayState = (id: number, state: TrackState[]) => {
 };
 
 
-export const useAudio = (urls: Track[]): [TrackState[], (id: number) => void] => {
-    const [tracks, setState] = useState(createInitialState(urls));
+export const useAudio = (sources: Track[], resolveUrl = async (track: Track) => track): [TrackState[], (id: number) => void] => {
+    const [tracks, setState] = useState(createInitialState(sources));
     const currentTrack = useRef<HTMLAudioElement | null>(null);
 
     const setStateById = (id: number) => setState(setPlayState(id, tracks));
@@ -40,19 +40,17 @@ export const useAudio = (urls: Track[]): [TrackState[], (id: number) => void] =>
         }
 
         if (next) {
-            fetch(`/api/stream/${next.id}`)
-                .then(response => response.json())
-                .then(({ url }) => {
-                    currentTrack.current = new Audio(url);
-                    currentTrack.current.play();
-                    currentTrack.current.addEventListener('ended', () => {
-                        const currentTrackIndex = tracks.findIndex(track => track.isPlaying);
-                        const nextTrackIndex = (currentTrackIndex + 1) % tracks.length;
-                        const nextTrackId = tracks[nextTrackIndex].id;
+            resolveUrl(next).then(({ url }) => {
+                currentTrack.current = new Audio(url);
+                currentTrack.current.play();
+                currentTrack.current.addEventListener('ended', () => {
+                    const currentTrackIndex = tracks.findIndex(track => track.isPlaying);
+                    const nextTrackIndex = (currentTrackIndex + 1) % tracks.length;
+                    const nextTrackId = tracks[nextTrackIndex].id;
 
-                        setState(setPlayState(nextTrackId, tracks));
-                    });
+                    setState(setPlayState(nextTrackId, tracks));
                 });
+            });
         }
     }, [tracks]);
 

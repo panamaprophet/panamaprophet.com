@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { resolveStreamUrl } from '../../../resolvers';
+import { resolveStreamUrl } from '../../../resolvers/soundcloud';
 
 
 const handler = async (request: NextApiRequest, response: NextApiResponse) => {

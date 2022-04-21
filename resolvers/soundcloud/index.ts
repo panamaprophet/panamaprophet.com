@@ -26,7 +26,7 @@ export const resolveStreamUrl = async (track: Pick<Track, 'id'>): Promise<string
         .then(response => response.http_mp3_128_url);
 };
 
-export const getTracksData = async (urls: string[]): Promise<Track[] | null> => {
+export const resolveTracks = async (urls: string[]): Promise<Track[] | null> => {
     const accessToken = await getAccessToken();
 
     if (!accessToken) {

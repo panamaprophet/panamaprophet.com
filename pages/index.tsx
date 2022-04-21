@@ -5,8 +5,9 @@ import { Links } from '../components/Links';
 import { Player } from '../components/Player';
 import { Column, Row } from '../components/Layout';
 
-import { getPageDataById, getSocialLinks, getTracksData } from '../resolvers';
-import { getPlaylists, isInPlaylist } from '../helpers';
+import { resolvePageDataById, resolveSocialLinks } from '../resolvers/pages';
+import { resolveTracks } from '../resolvers/soundcloud';
+import { getPlaylists, isInPlaylist, getTrackUrl } from '../helpers';
 
 import { useAudio } from '../hooks/useAudio';
 
@@ -22,7 +23,7 @@ interface Props {
 
 
 export default function Main({ data, tracks }: Props) {
-    const [state, setTrackState] = useAudio(tracks);
+    const [state, setTrackState] = useAudio(tracks, getTrackUrl);
 
     return (
         <>
@@ -51,7 +52,7 @@ export default function Main({ data, tracks }: Props) {
 
 
 export const getServerSideProps = async () => {
-    const data = getPageDataById('main');
+    const data = resolvePageDataById('main');
 
     if (!data) {
         return { notFound: true };
@@ -60,8 +61,8 @@ export const getServerSideProps = async () => {
     return {
         props: {
             data,
-            links: getSocialLinks(),
-            tracks: await getTracksData(getPlaylists(data)),
+            links: resolveSocialLinks(),
+            tracks: await resolveTracks(getPlaylists(data)),
         },
         // revalidate: 86400,
     };
