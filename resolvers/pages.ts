@@ -8,6 +8,6 @@ const DATA_MAP: { [k: string]: Types.Section[] } = {
 }
 
 
-export const resolvePageDataById = (pageId: string): Types.Section[] | null => DATA_MAP[pageId] || null;
+export const resolvePageData = async (pageId: string): Promise<Types.Section[] | null> => DATA_MAP[pageId] || null;
 
-export const resolveSocialLinks = (): { [key: string]: string } => socialLinks;
+export const resolveSocialLinks = async (): Promise<{ [key: string]: string }> => socialLinks;

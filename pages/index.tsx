@@ -5,7 +5,7 @@ import { Links } from '../components/Links';
 import { Player } from '../components/Player';
 import { Column, Row } from '../components/Layout';
 
-import { resolvePageDataById, resolveSocialLinks } from '../resolvers/pages';
+import { resolvePageData, resolveSocialLinks } from '../resolvers/pages';
 import { resolveTracks } from '../resolvers/soundcloud';
 import { getPlaylists, isInPlaylist, getTrackUrl } from '../helpers';
 
@@ -52,7 +52,7 @@ export default function Main({ data, tracks }: Props) {
 
 
 export const getServerSideProps = async () => {
-    const data = resolvePageDataById('main');
+    const data = await resolvePageData('main');
 
     if (!data) {
         return { notFound: true };
@@ -61,7 +61,7 @@ export const getServerSideProps = async () => {
     return {
         props: {
             data,
-            links: resolveSocialLinks(),
+            links: await resolveSocialLinks(),
             tracks: await resolveTracks(getPlaylists(data)),
         },
         // revalidate: 86400,
