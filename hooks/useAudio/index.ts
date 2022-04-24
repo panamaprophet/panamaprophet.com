@@ -4,6 +4,10 @@ import { Track } from '../../types';
 
 type TrackState = Track & { isPlaying: boolean };
 
+type Options = {
+    resolveUrl?: (track: Track) => Promise<Track>,
+}
+
 
 const createInitialState = (tracks: Track[]) => tracks.map(track => ({ ...track, isPlaying: false }));
 
@@ -25,7 +29,17 @@ const setPlayState = (id: number, state: TrackState[]) => {
 };
 
 
-export const useAudio = (sources: Track[], resolveUrl = async (track: Track) => track): [TrackState[], (id: number) => void] => {
+export const useAudio = (sources: Track[], userOptions: Options = {}): [TrackState[], (id: number) => void] => {
+    const defaultOptions = {
+        resolveUrl: async (track: Track) => track,
+    };
+
+    const options = { 
+        ...defaultOptions, 
+        ...userOptions 
+    };
+
+    const { resolveUrl } = options;
     const [tracks, setState] = useState(createInitialState(sources));
     const currentTrack = useRef<HTMLAudioElement | null>(null);
 

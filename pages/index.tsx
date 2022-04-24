@@ -23,7 +23,7 @@ interface Props {
 
 
 export default function Main({ data, tracks }: Props) {
-    const [state, setTrackState] = useAudio(tracks, getTrackUrl);
+    const [state, setTrackState] = useAudio(tracks);
 
     return (
         <>
