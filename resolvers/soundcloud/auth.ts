@@ -9,10 +9,19 @@ const getHeaders = () => ({
     'Content-Type': 'application/x-www-form-urlencoded',
 });
 
-const getDefaultParams = () => ({
-    client_id: process.env.CLIENT_ID,
-    client_secret: process.env.CLIENT_SECRET,
-});
+const getDefaultParams = () => {
+    const client_id = process.env.CLIENT_ID;
+    const client_secret = process.env.CLIENT_SECRET;
+
+    if (!client_id || !client_secret) {
+        throw Error('Invalid soundcloud client_id or client_secret');
+    }
+
+    return {
+        client_id,
+        client_secret,
+    };
+};
 
 const paramsToString = (obj: any) => Object.entries(obj).map(entry => entry.join('=')).join('&');
 
