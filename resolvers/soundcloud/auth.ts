@@ -1,8 +1,12 @@
-const token: { [k: string]: string | null } = {
-    access: null,
-    refresh: null,
+enum GrantTypes {
+    Refresh = 'refresh_token',
+    Credentials = 'client_credentials'
 };
 
+
+let accessToken: string | null = null;
+let refreshToken: string | null = null;
+let expireDate: number | null = null;
 
 const getHeaders = () => ({
     'accept': 'application/json;charset=utf-8',
@@ -40,18 +44,27 @@ const requestToken = (body: { [k: string]: unknown }) => {
     return fetch(url, options)
         .then((response) => response.json())
         .then((response) => {
-            token.access = String(response.access_token);
-            token.refresh = String(response.refresh_token);
+            accessToken = String(response.access_token);
+            refreshToken = String(response.refresh_token);
+            expireDate = Date.now() + (response.expires_in * 1000);
 
-            setTimeout(refresh, response.expires_in * 1000);
-
-            return token.access;
+            return accessToken;
         });
 };
 
-const refresh = () => requestToken({ refresh_token: token.refresh, grant_type: 'refresh_token' });
+const refresh = () => requestToken({ refresh_token: refreshToken, grant_type: GrantTypes.Refresh });
 
-const init = () => requestToken({ grant_type: 'client_credentials' });
+const init = () => requestToken({ grant_type: GrantTypes.Credentials });
 
 
-export const getAccessToken = async () => token.access || init();
+export const getAccessToken = async () => {
+    if (!expireDate || !accessToken) {
+        return init();
+    }
+
+    if (expireDate <= Date.now()) {
+        return refresh();
+    }
+
+    return accessToken;
+};
