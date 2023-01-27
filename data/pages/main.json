@@ -1,0 +1,107 @@
+[
+    {
+        "image": {
+            "src": "/images/cover-singles-galore.jpg"
+        },
+        "title": "Калейдоскоп синглов",
+        "description": [
+            "Небольшая компиляция синглов, как и всегда, знатно настоявшаяся в ожидании релиза.",
+            "Смикшировал всё Вадим Рутикал, полирнул Вован, внутри — сюрпризы и веселье!"
+        ],
+        "playlist": "https://soundcloud.com/panamaprophet/sets/singles-galore",
+        "links": {
+            "soundcloud": "//soundcloud.com/panamaprophet/sets/singles-galore"
+        }
+    },
+    {
+        "image": {
+            "src": "/images/cover-lp.jpg"
+        },
+        "title": "LP",
+        "description": [
+            "Материал для этого альбома семь лет добирался до сети из Малаховки, по пути побывав и в Израиле, и в Лесном городке.",
+            "Но, как известно, у хорошей песни нет срока давности, и потому вашему вниманию — прекрасно настоявшийся рутс!"
+        ],
+        "playlist": "https://soundcloud.com/panamaprophet/sets/pp-lp-lp",
+        "links": {
+            "spotify": "//open.spotify.com/album/0Bmufp4rh1C1JHmGGZ9gHl",
+            "apple": "//music.apple.com/pl/album/prophet-p-lion-posse-band/1541125229",
+            "youtube-music": "//music.youtube.com/playlist?list=OLAK5uy_mgohOMI5DiaMjb0hczgr0MSytMooZObnY",
+            "soundcloud": "//soundcloud.com/panamaprophet/sets/pp-lp-lp"
+        }
+    },
+    {
+        "image": {
+            "src": "/images/cover-garden.jpg"
+        },
+        "title": "В моём саду",
+        "description": [
+            "С некоторым опозданием, но с не меньшей актуальностью представляю пиратский гимн всех садоводов, растениеводов и сочувствующих.",
+            "Ритм от песни «La La La Means I Love You», слова и исполнение - Prophet P. Оформление - домашнее"
+        ],
+        "playlist": "https://soundcloud.com/panamaprophet/in-my-garden",
+        "links": {
+            "soundcloud": "//soundcloud.com/panamaprophet/in-my-garden"
+        }
+    },
+    {
+        "image": {
+            "src": "/images/cover-jungle.jpg"
+        },
+        "title": "Обитатели джунглей",
+        "description": [
+            "На этот раз речь пойдёт о человечности и животных инстинктах: своей новой песней призываю в любой ситуации оставаться людьми!",
+            "Ритм, слова и песня - мои, на гитаре и за микшерным пультом - Ребелстеппа, на бэк-вокале - Алина. Оформление - Milky Way"
+        ],
+        "playlist": "https://soundcloud.com/panamaprophet/sets/jungle-citizens",
+        "links": {
+            "spotify": "//open.spotify.com/album/4cH8mygKhqXOXAa9IAKlFp",
+            "apple": "//music.apple.com/pl/album/1414839882",
+            "soundcloud": "//soundcloud.com/panamaprophet/sets/jungle-citizens"
+        }
+    },
+    {
+        "image": {
+            "src": "/images/cover-rasta.jpg"
+        },
+        "title": "Раста, Раста",
+        "description": [
+            "Свежая песня! Специальное послание всем, кто устал от слухов и подстрекательства: не дай давлению размять тебя!",
+            "Песня написана, записана и спродюссирована Профетом, на гитаре - Ребелстеппа, на бэк-вокале - Алина, сведением занимался Малей. Оформление - товарищ MilkyWay."
+        ],
+        "playlist": "https://soundcloud.com/panamaprophet/rasta-rasta",
+        "links": {
+            "spotify": "//open.spotify.com/album/2zoEbWmnc20h7EZZjocPWx",
+            "apple": "//music.apple.com/pl/album/1413554804",
+            "soundcloud": "//soundcloud.com/panamaprophet/rasta-rasta"
+        }
+    },
+    {
+        "image": {
+            "src": "/images/cover.jpg"
+        },
+        "title": "P",
+        "description": [
+            "Рад представить вам мой новый альбом «P», в работе над которым я выступил не только в роли исполнителя, но и продюсера, весело орудуя клавишами, семплами, изолентой и клеем с ножницами.",
+            "Записывать и сводить материал помогали мои старые друзья - такие ребята, как Rebelsteppa, Tenor Youthman, Fayah Temple, General Culture, Дима Шишкин, Аина и Алина, а обложку, как я уже говорил ранее, нарисовал Лёха Бархан."
+        ],
+        "playlist": "https://soundcloud.com/panamaprophet/sets/p-lp",
+        "links": {
+            "spotify": "//open.spotify.com/album/0UjRV84pwTuEjE7MKbZOW9",
+            "apple": "//music.apple.com/pl/album/p/1178199096",
+            "youtube-music": "//music.youtube.com/playlist?list=OLAK5uy_l4MgAs2h67IpWatoxk7y9q8Mg_f1ehS8c",
+            "soundcloud": "//soundcloud.com/panamaprophet/sets/p-lp"
+        }
+    },
+    {
+        "title": "Нравится любить тебя!",
+        "description": [
+            "Сняли с Алиной видео на песню «Мне нравится любитиь тебя» при помощи мобильного телефона и изрядной доли терпения.",
+            "Оригинальный материал был утерян, превратившись в гифки, этот клип переснят за пятнадцать минут."
+        ],
+        "video": {
+            "src": "//www.youtube.com/embed/rGfBQQomMf0?showinfo=0"
+        }
+    }
+]
+
