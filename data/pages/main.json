@@ -1,7 +1,7 @@
 [
     {
         "image": {
-            "src": "/images/cover-singles-galore.jpg"
+            "src": "https://s3.eu-west-1.amazonaws.com/panamaprophet.com/cover-singles-galore.jpg"
         },
         "title": "Калейдоскоп синглов",
         "description": [
@@ -15,7 +15,7 @@
     },
     {
         "image": {
-            "src": "/images/cover-lp.jpg"
+            "src": "https://s3.eu-west-1.amazonaws.com/panamaprophet.com/cover-lp.jpg"
         },
         "title": "LP",
         "description": [
@@ -32,7 +32,7 @@
     },
     {
         "image": {
-            "src": "/images/cover-garden.jpg"
+            "src": "https://s3.eu-west-1.amazonaws.com/panamaprophet.com/cover-garden.jpg"
         },
         "title": "В моём саду",
         "description": [
@@ -46,7 +46,7 @@
     },
     {
         "image": {
-            "src": "/images/cover-jungle.jpg"
+            "src": "https://s3.eu-west-1.amazonaws.com/panamaprophet.com/cover-jungle.jpg"
         },
         "title": "Обитатели джунглей",
         "description": [
@@ -62,7 +62,7 @@
     },
     {
         "image": {
-            "src": "/images/cover-rasta.jpg"
+            "src": "https://s3.eu-west-1.amazonaws.com/panamaprophet.com/cover-rasta.jpg"
         },
         "title": "Раста, Раста",
         "description": [
@@ -78,7 +78,7 @@
     },
     {
         "image": {
-            "src": "/images/cover.jpg"
+            "src": "https://s3.eu-west-1.amazonaws.com/panamaprophet.com/cover.jpg"
         },
         "title": "P",
         "description": [
