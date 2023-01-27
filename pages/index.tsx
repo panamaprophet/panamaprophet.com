@@ -5,8 +5,8 @@ import { Links } from '../components/Links';
 import { Player } from '../components/Player';
 import { Column, Row } from '../components/Layout';
 
-import { resolvePageData, resolveSocialLinks } from '../resolvers/pages';
-import { resolveTracks } from '../resolvers/soundcloud';
+import { resolvePageData, resolveSocialLinks } from '../services/page-data';
+import { resolveTracks } from '../services/soundcloud';
 import { getPlaylists, isInPlaylist, getTrackUrl } from '../helpers';
 
 import { useAudio } from '../hooks/useAudio';
@@ -23,7 +23,7 @@ interface Props {
 
 
 export default function Main({ data, tracks }: Props) {
-    const [state, setTrackState] = useAudio(tracks);
+    const [state, setTrackState] = useAudio(tracks, { resolveUrl: getTrackUrl });
 
     return (
         <>
