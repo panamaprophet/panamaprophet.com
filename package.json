@@ -12,6 +12,8 @@
     "docker:run": "docker run -dp 80:3000 --env-file .env panamaprophet/website:latest"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.259.0",
+    "@aws-sdk/util-dynamodb": "^3.259.0",
     "next": "12",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
