@@ -1,4 +1,5 @@
 import { get, store } from '../storage';
+import { getCachedToken, cacheToken } from './cache';
 
 
 enum GrantTypes {
@@ -29,7 +30,7 @@ const getDefaultParams = () => {
 
 const paramsToString = (obj: any) => Object.entries(obj).map(entry => entry.join('=')).join('&');
 
-const requestToken = (body: { [k: string]: any }) => {
+const sendRequest = (body: { [k: string]: any }) => {
     const url = 'https://api.soundcloud.com/oauth2/token';
 
     const options = {
@@ -46,7 +47,6 @@ const requestToken = (body: { [k: string]: any }) => {
 
     return fetch(url, options)
         .then(response => response.json())
-        .then(response => { console.log('request token response:', response); return response; })
         .then(response => ({
             accessToken: String(response.access_token),
             refreshToken: String(response.refresh_token),
@@ -54,27 +54,22 @@ const requestToken = (body: { [k: string]: any }) => {
         }));
 };
 
+const requestToken = () => sendRequest({
+    grant_type: GrantTypes.Credentials,
+})
+    .then(storeToDb)
+    .then(cacheToken)
+    .then(response => response.accessToken)
+    .catch(error => console.log('error requesting access token', error));
 
-const cache = new Map();
-
-const cacheToken = (obj: { [k: string]: any }) => {
-    Object.entries(obj).forEach(entry => cache.set(...entry));
-
-    return obj;
-};
-
-const getCachedToken = () => {
-    if (cache.has('accessToken')) {
-        return {
-            expireDate: cache.get('expireDate'),
-            accessToken: cache.get('accessToken'),
-            refreshToken: cache.get('refreshToken'),
-        };
-    }
-
-    return null;
-};
-
+const refreshToken = (refreshToken: string) => sendRequest({
+    refresh_token: refreshToken,
+    grant_type: GrantTypes.Refresh,
+})
+    .then(storeToDb)
+    .then(cacheToken)
+    .then(response => response.accessToken)
+    .catch(error => console.log('error refreshing access token', error));
 
 export const getAccessToken = async () => {
     console.log('soundcloud access token was requested');
@@ -84,29 +79,16 @@ export const getAccessToken = async () => {
     if (!token) {
         console.log('no access token found. requesting the new one');
 
-        return requestToken({
-            grant_type: GrantTypes.Credentials,
-        })
-            .then(storeToDb)
-            .then(cacheToken)
-            .then(response => response.accessToken)
-            .catch(error => console.log('error requesting access token', error));
+        return requestToken();
     }
 
     if (token.expireDate <= Date.now()) {
-        console.log('access token is expired. refreshing it');
+        console.log('access token has expired. refreshing it');
 
-        return requestToken({
-            refresh_token: token.refreshToken,
-            grant_type: GrantTypes.Refresh,
-        })
-            .then(storeToDb)
-            .then(cacheToken)
-            .then(response => response.accessToken)
-            .catch(error => console.log('error refreshing access token', error));
+        return refreshToken(token.refreshToken);
     }
 
     console.log('current access token is', token.accessToken);
 
-    return cache.get('accessToken');
+    return token.accessToken;
 };
