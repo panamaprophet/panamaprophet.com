@@ -1,4 +1,4 @@
-const getPageDataUrl = (pageId: string) => `${process.env.PAGE_DATA_URL}/${pageId}.json`;
+const getPageDataUrl = (pageId: string) => `${process.env.AMAZON_BUCKET}/page-data/${pageId}.json`;
 
 export const resolvePageData = (pageId: string) => {
     const url = getPageDataUrl(pageId);
