@@ -1,3 +1,5 @@
+import styles from './index.module.css';
+
 interface Props {
     src: string,
     width?: number,
@@ -6,7 +8,7 @@ interface Props {
 
 
 export const Video = ({ src, width = 420, height = 420 }: Props) => (
-    <div>
-        <iframe src={src} width={width} height={height} frameBorder="0" />
+    <div className={styles.root}>
+        <iframe src={src} width={width} height={height} />
     </div>
 );
