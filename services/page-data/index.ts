@@ -1,13 +1,13 @@
-import mainPage from '../../data/pages/main.json';
-import socialLinks from '../../data/pages/social.json';
-import * as Types from '../../types';
+const getPageDataUrl = (pageId: string) => `${process.env.PAGE_DATA_URL}/${pageId}.json`;
 
+export const resolvePageData = (pageId: string) => {
+    const url = getPageDataUrl(pageId);
 
-const DATA_MAP: { [k: string]: Types.Section[] } = {
-    main: mainPage as unknown as Types.Section[],
+    return fetch(url)
+        .then(response => response.json())
+        .catch(error => {
+            console.log('error fetching page data:', error);
+
+            return null;
+        });
 };
-
-
-export const resolvePageData = async (pageId: string): Promise<Types.Section[] | null> => DATA_MAP[pageId] || null;
-
-export const resolveSocialLinks = async (): Promise<{ [key: string]: string }> => socialLinks;
