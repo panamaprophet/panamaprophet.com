@@ -1,5 +1,5 @@
 import NextImage from 'next/image';
-
+import styles from './index.module.css';
 
 interface Props {
     src: string,
@@ -9,14 +9,8 @@ interface Props {
 }
 
 
-export const Image = ({ src, alt = '', width = 420, height = 420 }: Props) => (
-    <div>
-        <NextImage
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            layout="fixed"
-        />
+export const Image = ({ src, alt = '' }: Props) => (
+    <div className={styles.root}>
+        <NextImage src={src} alt={alt} fill />
     </div>
 );

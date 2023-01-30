@@ -2,21 +2,30 @@
     display: flex;
     flex-flow: row nowrap;
     gap: 32px;
+    padding: 16px 0;
 }
 
-.row_direction-straight {
-    flex-direction: row;
-}
-
+.row_direction-straight,
 .row_direction-reverse {
-    flex-direction: row-reverse;
+    flex-direction: column;
+}
+
+@media screen and (min-width: 801px) {
+    .row_direction-straight {
+        flex-direction: row;
+    }
+
+    .row_direction-reverse {
+        flex-direction: row-reverse;
+    }
 }
 
 .column {
     display: flex;
-    flex-flow: column nowrap;    
+    flex-flow: column nowrap;
     gap: 32px;
     margin-bottom: 64px;
+    padding: 0 16px;
 }
 
 .column:last-child {

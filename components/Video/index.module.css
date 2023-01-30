@@ -1,0 +1,8 @@
+.root {
+    width: 100%;
+}
+
+.root > iframe {
+    max-width: 100%;
+    border: none;
+}
