@@ -4,4 +4,6 @@
 	border-top: 1px solid #ececec;
 	padding: 22px;
 	color: #fff;
+	justify-content: center;
+	display: flex;
 }

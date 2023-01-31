@@ -1,4 +1,4 @@
-import { Text } from '../components/Text';
+import { Title, Description } from '../components/Text';
 import { Video } from '../components/Video';
 import { Image } from '../components/Image';
 import { Links } from '../components/Links';
@@ -7,7 +7,7 @@ import { Column, Row } from '../components/Layout';
 
 import { resolvePageData } from '../services/page-data';
 import { resolveTracks } from '../services/soundcloud';
-import { getPlaylists, isInPlaylist, getTrackUrl } from '../helpers';
+import { getPlaylists, getTrackUrl } from '../helpers';
 
 import { useAudio } from '../hooks/useAudio';
 
@@ -22,27 +22,27 @@ interface Props {
 };
 
 
-export default function Main({ data, tracks }: Props) {
-    const [state, setTrackState] = useAudio(tracks, { resolveUrl: getTrackUrl });
+export default function Main(props: Props) {
+    const [tracks, setTrackState] = useAudio(props.tracks, { resolveUrl: getTrackUrl });
 
     return (
         <>
-            {data.map((props, index) => (
+            {props.data.map((section, index) => (
                 <Column key={index}>
                     <Row direction={index % 2 ? 'reverse' : 'straight'}>
-                        {props.image && <Image {...props.image} alt={props.title} />}
-                        {props.video && <Video {...props.video} />}
-
-                        <Text title={props.title}>
-                            {props.description.map(line => <p key={line}>{line}</p>)}
-                            {props.links && <Links urls={props.links} />}
-                        </Text>
+                        {section.image && <Image {...section.image} alt={section.title} />}
+                        {section.video && <Video {...section.video} />}
+                        <Column style={{ justifyContent: 'center' }}>
+                            <Title text={section.title} />
+                            <Description text={section.description} />
+                            <Links urls={section.links ?? {}} />
+                        </Column>
                     </Row>
                     <Row>
-                        {props.playlist && (<Player
-                            tracks={state.filter(isInPlaylist(props.playlist))}
+                        {section.playlist && <Player
                             onPlay={setTrackState}
-                        />)}
+                            tracks={tracks.filter(({ playlist }) => playlist === section.playlist)}
+                        />}
                     </Row>
                 </Column>
             ))}

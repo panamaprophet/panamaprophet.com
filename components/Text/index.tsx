@@ -1,16 +1,14 @@
-import { ReactNode } from 'react';
 import styles from './index.module.css';
 
 
-interface Props {
-    title?: string,
-    children: ReactNode,
-}
+export const Title = ({ text }: { text: string }) => <h2 className={styles.title}>{text}</h2>;
 
+export const Description = ({ text }: { text: string | string[] }) => {
+    const source = Array.isArray(text) ? text : [text];
 
-export const Text = ({ title = '', children }: Props) => (
-    <div className={styles.root}>
-        {title && <h2 className={styles.title}>{title}</h2>}
-        {children}
-    </div>
-);
+    return (
+        <div className={styles.root}>
+            {source.map(line => <p key={line}>{line}</p>)}
+        </div>
+    );
+};
