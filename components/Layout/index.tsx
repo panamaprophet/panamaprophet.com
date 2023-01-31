@@ -9,6 +9,6 @@ export const Row = ({ children, direction = 'straight' }: { children: ReactNode,
     ].join(' ')}>{children}</div>
 );
 
-export const Column = ({ children }: { children: ReactNode }) => {
-    return <div className={styles.column}>{children}</div>;
+export const Column = ({ children, style = {} }: { children: ReactNode, style?: React.CSSProperties }) => {
+    return <div className={styles.column} style={style}>{children}</div>;
 };
