@@ -23,10 +23,11 @@ interface Props {
 
 
 export default function Main(props: Props) {
-    const [tracks, setTrackState] = useAudio(props.tracks, { resolveUrl: getTrackUrl });
+    const [tracks, setTrackState, AudioProvider] = useAudio(props.tracks, getTrackUrl);
 
     return (
         <>
+            <AudioProvider />
             {props.data.map((section, index) => (
                 <Column key={index}>
                     <Row direction={index % 2 ? 'reverse' : 'straight'}>
@@ -56,15 +57,8 @@ export const getStaticProps = async () => {
     const links = await resolvePageData('social');
     const tracks = await resolveTracks(getPlaylists(data));
 
-    if (!data) {
-        return { notFound: true };
-    }
-
     return {
-        props: {
-            data,
-            links,
-            tracks,
-        },
+        notFound: !data,
+        props: { data, links, tracks },
     };
 };
