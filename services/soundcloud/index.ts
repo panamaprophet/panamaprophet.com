@@ -23,7 +23,7 @@ export const resolveStreamUrl = async (track: Pick<Track, 'id'>): Promise<string
 
     return fetch(`https://api.soundcloud.com/tracks/${track.id}/streams`, { headers })
         .then(response => response.json())
-        .then(response => response.hls_mp3_128_url);
+        .then(response => response.preview_mp3_128_url);
 };
 
 export const resolveTracks = async (urls: string[]): Promise<Track[] | null> => {
