@@ -39,6 +39,7 @@ const handler = new NodejsFunction(stack, `stream-handler`, {
     runtime: Runtime.NODEJS_24_X,
     architecture: Architecture.ARM_64,
     timeout: Duration.seconds(10),
+    memorySize: 256,
 });
 
 for (const secret of [...credentials, token]) {
