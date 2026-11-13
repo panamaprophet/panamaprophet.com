@@ -1,29 +1,30 @@
 {
   "name": "panamaprophet.com",
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "private": true,
   "license": "MIT",
-  "scripts": {
-    "dev": "next dev",
-    "lint": "next lint",
-    "build": "next build",
-    "start": "next start",
-    "env:export": "set -a && source .env && set +a",
-    "docker:build": "docker build -t panamaprophet/website:latest .",
-    "docker:run": "docker run -dp 80:3000 --env-file .env panamaprophet/website:latest"
+  "type": "module",
+  "engines": {
+    "node": ">=24"
   },
-  "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.259.0",
-    "@aws-sdk/util-dynamodb": "^3.259.0",
-    "next": "^13.1.6",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "sharp": "^0.30.4"
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @panamaprophet/site --",
+    "build": "npm run build -w @panamaprophet/site --",
+    "typecheck": "tsc -b",
+    "lint": "eslint .",
+    "cdk": "npm run cdk -w @panamaprophet/api --"
   },
   "devDependencies": {
-    "@types/node": "^17.0.24",
-    "@types/react": "^18.0.5",
-    "eslint": "8.13.0",
-    "eslint-config-next": "12.1.5",
-    "typescript": "^4.2.3"
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/node": "^24.19.2",
+    "eslint": "^10.14.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.1"
   }
 }

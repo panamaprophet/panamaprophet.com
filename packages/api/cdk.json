@@ -1,0 +1,11 @@
+{
+  "app": "node cdk/index.ts",
+  "context": {
+    "region": "eu-west-1",
+    "allowedOrigins": [
+      "https://panamaprophet.com",
+      "https://www.panamaprophet.com",
+      "http://localhost:5173"
+    ]
+  }
+}

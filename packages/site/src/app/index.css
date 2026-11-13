@@ -1,0 +1,34 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    background: #fff;
+    color: #555;
+
+    min-height: 100vh;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+::selection {
+    background: #b2daeb;
+    color: #fff;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}

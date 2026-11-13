@@ -1,0 +1,12 @@
+.links {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    list-style: none;
+    gap: 16px;
+}
+
+.links__link {
+    opacity: 0.6;
+    display: flex;
+}

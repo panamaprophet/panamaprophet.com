@@ -1,0 +1,8 @@
+.video {
+    width: 100%;
+}
+
+.video > iframe {
+    max-width: 100%;
+    border: none;
+}
