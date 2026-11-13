@@ -19,6 +19,7 @@ jobs:
   api:
     needs: checks
     runs-on: ubuntu-latest
+    environment: github-pages
     outputs:
       url: ${{ steps.outputs.outputs.url }}
     steps:
