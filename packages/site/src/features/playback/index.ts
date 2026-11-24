@@ -1,2 +1,2 @@
 export { playback } from './model';
-export { PlaylistTracks } from './ui/PlaylistTracks';
+export { TrackList } from './ui/TrackList';

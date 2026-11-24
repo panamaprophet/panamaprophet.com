@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
-import type { Track } from '@/entities/track';
-import { createAudioEngine, type AudioEngine } from '@/shared/lib/audio';
+import type { Track } from '@/entities/release';
+import { createAudioEngine, type AudioEngine } from '../lib';
 import { getStreamSource } from '../api';
 
 export type PlaybackStatus = 'idle' | 'loading' | 'playing' | 'paused' | 'error';

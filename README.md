@@ -16,10 +16,10 @@ npm workspaces: run everything from the repo root.
 | --- | --- |
 | `app` | `index.tsx` (mounts the app), `index.css` |
 | `pages` | `home`: the releases (`model`) and the page |
-| `widgets` | `header`, `footer` (with the social links), `release` |
-| `features` | `playback`: one page-wide player; plays through the tracks of all releases in page order |
-| `entities` | `release`, `track` |
-| `shared` | `ui` (`Icon`, `Layout`, `Links`), `lib/audio` (audio element + hls.js) |
+| `widgets` | `header`, `footer` (with the social links), `release` (a release with its tracks) |
+| `features` | `playback`: one page-wide player (`TrackList`, audio element + hls.js in `lib`); plays through the tracks of all releases in page order |
+| `entities` | `release`: the `Release` and `Track` types |
+| `shared` | `ui` (`Icon`, `Links`) |
 
 Components are `Component/index.tsx` + `Component/index.css` (plain CSS, class names prefixed with the component).
 A component used in one place lives next to it (e.g. `widgets/header/ui/Logo`, used by `Header`); only shared ones go to `shared/ui`.

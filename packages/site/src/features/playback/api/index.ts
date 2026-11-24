@@ -1,5 +1,5 @@
-import type { Track } from '@/entities/track';
-import type { AudioSource } from '@/shared/lib/audio';
+import type { Track } from '@/entities/release';
+import type { AudioSource } from '../lib';
 
 const API_URL = (import.meta.env.VITE_STREAM_API_URL ?? '').replace(/\/+$/, '');
 

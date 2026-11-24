@@ -1,4 +1,10 @@
-import type { Track } from '@/entities/track/@x/release';
+export type Duration = `${number}:${number}${number}`;
+
+export interface Track {
+    title: string,
+    duration: Duration,
+    url: string,
+}
 
 export interface Release {
     title: string,
