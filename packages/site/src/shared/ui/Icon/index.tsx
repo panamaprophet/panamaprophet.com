@@ -7,8 +7,6 @@ import vkontakte from './images/vk.svg';
 import youtubeMusic from './images/youtube-music.svg';
 import youtube from './images/youtube.svg';
 
-import './index.css';
-
 const ICONS = {
     apple,
     arrow,
@@ -30,5 +28,5 @@ interface Props {
 }
 
 export const Icon = ({ type, size = 32 }: Props) => (
-    <img className="icon" src={ICONS[type]} width={size} height={size} alt={type} />
+    <img src={ICONS[type]} style={{ width: size, height: size }} alt={type} />
 );

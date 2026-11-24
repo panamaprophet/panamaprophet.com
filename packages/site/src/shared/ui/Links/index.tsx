@@ -1,5 +1,4 @@
 import { Icon, isIconType } from '../Icon';
-import './index.css';
 
 interface Props {
     urls: Record<string, string>,
@@ -7,9 +6,9 @@ interface Props {
 }
 
 export const Links = ({ urls, size = 32 }: Props) => (
-    <div className="links">
+    <div className="flex items-center gap-4">
         {Object.entries(urls).map(([name, url]) => (
-            <a key={name} href={url} target="_blank" rel="noreferrer" className="links__link">
+            <a key={name} href={url} target="_blank" rel="noreferrer" className="flex opacity-60">
                 {isIconType(name) ? <Icon type={name} size={size} /> : name}
             </a>
         ))}

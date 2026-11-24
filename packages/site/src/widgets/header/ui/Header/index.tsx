@@ -1,9 +1,8 @@
 import { Logo } from '../Logo';
 import { ScrollDownButton } from '../ScrollDownButton';
-import './index.css';
 
 export const Header = ({ scrollTarget }: { scrollTarget: string }) => (
-    <header className="header">
+    <header className="mb-25 flex min-h-screen w-full items-center justify-center px-4">
         <Logo />
         <ScrollDownButton target={scrollTarget} />
     </header>

@@ -21,7 +21,7 @@ npm workspaces: run everything from the repo root.
 | `entities` | `release`: the `Release` and `Track` types |
 | `shared` | `ui` (`Icon`, `Links`) |
 
-Components are `Component/index.tsx` + `Component/index.css` (plain CSS, class names prefixed with the component).
+Components are `Component/index.tsx`, styled with Tailwind utility classes; theme values and the base styles are in `app/index.css` and `index.html`.
 A component used in one place lives next to it (e.g. `widgets/header/ui/Logo`, used by `Header`); only shared ones go to `shared/ui`.
 
 ## API

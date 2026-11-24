@@ -1,4 +1,3 @@
-import './index.css';
 
 export const Logo = () => (
     <svg
@@ -6,7 +5,7 @@ export const Logo = () => (
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1020 252"
         preserveAspectRatio="xMidYMid meet"
-        className="logo"
+        className="w-full"
     >
         <path
             fill="#232323"
