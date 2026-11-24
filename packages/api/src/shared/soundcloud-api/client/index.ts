@@ -20,10 +20,10 @@ interface Streams {
 
 const request = async (url: string, init: RequestInit = {}) => fetch(url, {
     ...init,
-  headers: {
-    'accept': 'application/json; charset=utf-8',
-    'authorization': `OAuth ${await getAccessToken()}`,
-  },
+    headers: {
+        'accept': 'application/json; charset=utf-8',
+        'authorization': `OAuth ${await getAccessToken()}`,
+    },
 });
 
 const getJson = async <T>(path: string): Promise<T | null> => {

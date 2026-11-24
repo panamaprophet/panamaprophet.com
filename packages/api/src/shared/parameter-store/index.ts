@@ -7,9 +7,9 @@ export const put = (name: string, value: string) => client.send(new PutParameter
     Value: value,
     Type: 'SecureString',
     Overwrite: true,
-  }));
+}));
 
 export const get = (...names: string[]) => client.send(new GetParametersCommand({
-  Names: names,
-  WithDecryption: true,
+    Names: names,
+    WithDecryption: true,
 }));

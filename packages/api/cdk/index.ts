@@ -11,10 +11,10 @@ import { PARAMETERS } from '../src/shared/soundcloud-api/index.ts';
 const app = new App();
 
 const stack = new Stack(app, 'www-panamaprophet-com', {
-  env: {
-    account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: app.node.getContext('region'),
-  },
+    env: {
+        account: process.env.CDK_DEFAULT_ACCOUNT,
+        region: app.node.getContext('region'),
+    },
 });
 
 const api = new HttpApi(stack, 'api', {
@@ -25,9 +25,9 @@ const api = new HttpApi(stack, 'api', {
 });
 
 const parameter = (name: keyof typeof PARAMETERS) => {
-  return StringParameter.fromSecureStringParameterAttributes(stack, name, {
-    parameterName: PARAMETERS[name],
-  });
+    return StringParameter.fromSecureStringParameterAttributes(stack, name, {
+        parameterName: PARAMETERS[name],
+    });
 };
 
 const credentials = [parameter('clientId'), parameter('clientSecret')];
