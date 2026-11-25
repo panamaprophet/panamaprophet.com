@@ -17,13 +17,7 @@ export const Page = () => {
             <Header scrollTarget={PageId} />
 
             <main id={PageId}>
-                {releases.map((release, index) => (
-                    <ReleaseSection
-                        key={release.title}
-                        release={release}
-                        reverse={index % 2 === 1}
-                    />
-                ))}
+                {releases.map(release => <ReleaseSection key={release.title} release={release} />)}
             </main>
 
             <Footer />

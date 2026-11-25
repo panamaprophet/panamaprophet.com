@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import type { Track } from '@/entities/release';
-import { createAudioEngine, type AudioEngine } from '../lib';
+import { createAudioEngine } from '../lib';
 import { getStreamSource } from '../api';
 
 export type PlaybackStatus = 'idle' | 'loading' | 'playing' | 'paused' | 'error';
@@ -14,7 +14,6 @@ const INITIAL_STATE: PlaybackState = { track: null, status: 'idle' };
 
 let state = INITIAL_STATE;
 let queue: Track[] = [];
-let engine: AudioEngine | null = null;
 let session = 0;
 let retriesLeft = 0;
 
@@ -27,7 +26,7 @@ const setState = (patch: Partial<PlaybackState>) => {
     listeners.forEach(listener => listener());
 };
 
-const getEngine = () => engine ??= createAudioEngine({
+const engine = createAudioEngine({
     onEnded: () => {
         if (state.track !== null && state.status !== 'loading') {
             playNext();
@@ -45,9 +44,8 @@ const getEngine = () => engine ??= createAudioEngine({
 
 const start = async (track: Track) => {
     const current = ++session;
-    const audio = getEngine();
 
-    audio.unlock();
+    engine.unlock();
     setState({ track, status: 'loading' });
 
     try {
@@ -57,13 +55,13 @@ const start = async (track: Track) => {
             return;
         }
 
-        await audio.load(source);
+        await engine.load(source);
 
         if (current !== session) {
             return;
         }
 
-        await audio.play();
+        await engine.play();
 
         if (current === session) {
             setState({ status: 'playing' });
@@ -93,7 +91,7 @@ const handleError = (error: unknown) => {
 
     console.error('playback failed', error);
     session++;
-    getEngine().pause();
+    engine.pause();
     setState({ status: 'error' });
 };
 
@@ -107,8 +105,6 @@ const playNext = () => {
 };
 
 const toggle = (track: Track) => {
-    const audio = getEngine();
-
     if (track.url !== state.track?.url || state.status === 'idle' || state.status === 'error') {
         startFresh(track);
         return;
@@ -116,18 +112,18 @@ const toggle = (track: Track) => {
 
     if (state.status === 'paused') {
         retriesLeft = MAX_RETRIES;
-        audio.play().catch(handleError);
+        engine.play().catch(handleError);
         return;
     }
 
     if (state.status === 'loading') {
         session++;
-        audio.pause();
+        engine.pause();
         setState({ track: null, status: 'idle' });
         return;
     }
 
-    audio.pause();
+    engine.pause();
     setState({ status: 'paused' });
 };
 

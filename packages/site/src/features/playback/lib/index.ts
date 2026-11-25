@@ -5,23 +5,16 @@ export interface AudioSource {
     protocol: 'hls' | 'progressive',
 }
 
-export interface AudioEngineEvents {
+const HLS_MIME_TYPE = 'application/vnd.apple.mpegurl';
+const SILENCE = 'data:audio/wav;base64,UklGRjIAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAAABmYWN0BAAAAAAAAABkYXRhAAAAAA==';
+
+interface Events {
     onEnded: () => void,
     onError: (error: unknown) => void,
     onPlayingChange: (isPlaying: boolean) => void,
 }
 
-export interface AudioEngine {
-    unlock: () => void,
-    load: (source: AudioSource) => Promise<void>,
-    play: () => Promise<void>,
-    pause: () => void,
-}
-
-const HLS_MIME_TYPE = 'application/vnd.apple.mpegurl';
-const SILENCE = 'data:audio/wav;base64,UklGRjIAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAAABmYWN0BAAAAAAAAABkYXRhAAAAAA==';
-
-export const createAudioEngine = ({ onEnded, onError, onPlayingChange }: AudioEngineEvents): AudioEngine => {
+export const createAudioEngine = ({ onEnded, onError, onPlayingChange }: Events) => {
     const audio = new Audio();
     let hls: Hls | null = null;
     let isUnlocked = false;
@@ -38,19 +31,10 @@ export const createAudioEngine = ({ onEnded, onError, onPlayingChange }: AudioEn
         onError(error);
     };
 
-    const playNatively = (url: string) => {
-        audio.src = url;
-    };
-
     audio.addEventListener('ended', () => !isSilence && onEnded());
     audio.addEventListener('error', () => reportError(audio.error));
     audio.addEventListener('playing', () => !isSilence && onPlayingChange(true));
     audio.addEventListener('pause', () => !isSilence && onPlayingChange(false));
-
-    const detachHls = () => {
-        hls?.destroy();
-        hls = null;
-    };
 
     return {
         unlock() {
@@ -64,16 +48,17 @@ export const createAudioEngine = ({ onEnded, onError, onPlayingChange }: AudioEn
             audio.play().catch(() => {});
         },
 
-        async load({ url, protocol }) {
+        async load({ url, protocol }: AudioSource) {
             const id = ++loadId;
 
-            detachHls();
+            hls?.destroy();
+            hls = null;
             isSilence = false;
 
             const canPlayHlsNatively = audio.canPlayType(HLS_MIME_TYPE) !== '';
 
             if (protocol === 'progressive' || (canPlayHlsNatively && !('MediaSource' in window))) {
-                playNatively(url);
+                audio.src = url;
                 return;
             }
 
@@ -88,7 +73,7 @@ export const createAudioEngine = ({ onEnded, onError, onPlayingChange }: AudioEn
                     throw new Error('HLS playback is not supported in this browser');
                 }
 
-                playNatively(url);
+                audio.src = url;
                 return;
             }
 

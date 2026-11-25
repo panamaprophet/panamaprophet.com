@@ -9,24 +9,15 @@ const toLines = (input: string) => {
         .filter(Boolean);
 };
 
-interface Props {
-    release: Release,
-    reverse?: boolean,
-}
-
-export const ReleaseSection = ({ release, reverse = false }: Props) => {
+export const ReleaseSection = ({ release }: { release: Release }) => {
     const { title, description, tracks, media, links = {} } = release;
-
-    const rowClassName = reverse
-        ? 'flex flex-col gap-8 py-4 md:flex-row-reverse'
-        : 'flex flex-col gap-8 py-4 md:flex-row';
 
     const paragraphs = toLines(description);
 
     return (
-        <div className="mb-16 flex flex-col gap-8 px-4 last:mb-0">
-            <div className={rowClassName}>
-                <div className="relative h-0 w-full shrink-0 pb-[100%] md:w-1/2 md:pb-[50%] *:absolute *:inset-0 *:size-full *:object-cover">
+        <div className="group mb-16 flex flex-col gap-8 px-4 last:mb-0">
+            <div className="flex flex-col gap-8 py-4 md:flex-row md:group-even:flex-row-reverse">
+                <div className="aspect-square w-full shrink-0 self-start md:w-1/2 *:size-full *:object-cover">
                     {media.image && <img src={media.image} alt={title} loading="lazy" decoding="async" />}
                     {media.video && <iframe src={media.video} title={title} loading="lazy" allowFullScreen />}
                 </div>
@@ -36,7 +27,7 @@ export const ReleaseSection = ({ release, reverse = false }: Props) => {
                         {title}
                     </h2>
 
-                    <div className="flex flex-col gap-5.5 pb-4 leading-[1.8] text-[#666]">
+                    <div className="flex flex-col gap-4 leading-[1.8] text-[#666]">
                         {paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                     </div>
 
