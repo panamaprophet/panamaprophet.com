@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { playback } from '@/features/playback';
+import { usePlayback } from '@/features/playback';
 import { Header } from '@/widgets/header';
 import { Footer } from '@/widgets/footer';
 import { ReleaseSection } from '@/widgets/release';
@@ -10,7 +10,9 @@ const PageId = 'home';
 const tracks = releases.flatMap(release => release.tracks ?? []);
 
 export const Page = () => {
-    useEffect(() => playback.setQueue(tracks), []);
+    const { setQueue } = usePlayback();
+
+    useEffect(() => setQueue(tracks), [setQueue]);
 
     return (
         <>

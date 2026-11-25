@@ -5,36 +5,26 @@ export interface AudioSource {
     protocol: 'hls' | 'progressive',
 }
 
-const HLS_MIME_TYPE = 'application/vnd.apple.mpegurl';
 const SILENCE = 'data:audio/wav;base64,UklGRjIAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAAABmYWN0BAAAAAAAAABkYXRhAAAAAA==';
 
 interface Events {
+    onPlaying: () => void,
+    onPause: () => void,
     onEnded: () => void,
     onError: (error: unknown) => void,
-    onPlayingChange: (isPlaying: boolean) => void,
 }
 
-export const createAudioEngine = ({ onEnded, onError, onPlayingChange }: Events) => {
+export const createAudioEngine = ({ onPlaying, onPause, onEnded, onError }: Events) => {
     const audio = new Audio();
     let hls: Hls | null = null;
+    let loadId = 0;
     let isUnlocked = false;
     let isSilence = false;
-    let loadId = 0;
-    let failedLoadId = -1;
 
-    const reportError = (error: unknown) => {
-        if (isSilence || failedLoadId === loadId) {
-            return;
-        }
-
-        failedLoadId = loadId;
-        onError(error);
-    };
-
+    audio.addEventListener('playing', () => !isSilence && onPlaying());
+    audio.addEventListener('pause', () => !isSilence && onPause());
     audio.addEventListener('ended', () => !isSilence && onEnded());
-    audio.addEventListener('error', () => reportError(audio.error));
-    audio.addEventListener('playing', () => !isSilence && onPlayingChange(true));
-    audio.addEventListener('pause', () => !isSilence && onPlayingChange(false));
+    audio.addEventListener('error', () => onError(audio.error));
 
     return {
         unlock() {
@@ -48,42 +38,32 @@ export const createAudioEngine = ({ onEnded, onError, onPlayingChange }: Events)
             audio.play().catch(() => {});
         },
 
-        async load({ url, protocol }: AudioSource) {
+        async play({ url, protocol }: AudioSource) {
             const id = ++loadId;
 
             hls?.destroy();
             hls = null;
             isSilence = false;
 
-            const canPlayHlsNatively = audio.canPlayType(HLS_MIME_TYPE) !== '';
-
-            if (protocol === 'progressive' || (canPlayHlsNatively && !('MediaSource' in window))) {
+            if (protocol === 'progressive' || !('MediaSource' in window)) {
                 audio.src = url;
-                return;
-            }
+            } else {
+                const { default: HlsPlayer } = await import('hls.js/light');
 
-            const { default: HlsPlayer } = await import('hls.js/light');
-
-            if (id !== loadId) {
-                return;
-            }
-
-            if (!HlsPlayer.isSupported()) {
-                if (!canPlayHlsNatively) {
-                    throw new Error('HLS playback is not supported in this browser');
+                if (id !== loadId) {
+                    return;
                 }
 
-                audio.src = url;
-                return;
+                hls = new HlsPlayer();
+                hls.on(HlsPlayer.Events.ERROR, (_event, data) => data.fatal && onError(data));
+                hls.attachMedia(audio);
+                hls.loadSource(url);
             }
 
-            hls = new HlsPlayer();
-            hls.on(HlsPlayer.Events.ERROR, (_event, data) => data.fatal && reportError(data));
-            hls.attachMedia(audio);
-            hls.loadSource(url);
+            await audio.play();
         },
 
-        play: () => audio.play(),
+        resume: () => audio.play(),
 
         pause: () => audio.pause(),
     };

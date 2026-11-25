@@ -1,7 +1,7 @@
 import type { Track } from '@/entities/release';
-import { playback, usePlayback, type PlaybackStatus } from '../../model';
+import { usePlayback } from '../../model';
 
-const Markers: Record<PlaybackStatus, string> = {
+const Markers = {
     idle: '○',
     loading: '◌',
     playing: '▶',
@@ -10,7 +10,7 @@ const Markers: Record<PlaybackStatus, string> = {
 };
 
 export const TrackList = ({ tracks }: { tracks: Track[] }) => {
-    const { track: activeTrack, status } = usePlayback();
+    const { track: activeTrack, status, play, pause } = usePlayback();
 
     if (tracks.length === 0) {
         return null;
@@ -19,7 +19,7 @@ export const TrackList = ({ tracks }: { tracks: Track[] }) => {
     return (
         <ol className="w-full">
             {tracks.map((track, index) => {
-                const isActive = track.url === activeTrack?.url;
+                const isActive = track === activeTrack;
 
                 return (
                     <li key={track.url}>
@@ -27,7 +27,7 @@ export const TrackList = ({ tracks }: { tracks: Track[] }) => {
                             type="button"
                             className="group mb-5 flex w-full cursor-pointer border-b border-[rgb(66_66_66/0.2)] text-left leading-[1.8] text-[#666] transition-colors duration-250 hover:border-accent focus-visible:border-accent focus-visible:outline-none aria-[current=true]:border-accent"
                             aria-current={isActive || undefined}
-                            onClick={() => playback.toggle(track)}
+                            onClick={() => isActive && status === 'playing' ? pause() : play(track)}
                         >
                             <span className="mr-2 inline-block w-5 opacity-20 transition-opacity duration-250 group-hover:text-accent group-hover:opacity-100 group-focus-visible:text-accent group-focus-visible:opacity-100 group-aria-[current=true]:text-accent group-aria-[current=true]:opacity-100">{isActive ? Markers[status] : String(index + 1).padStart(2, '0')}</span>
                             <span className="flex-1 truncate">{track.title}</span>

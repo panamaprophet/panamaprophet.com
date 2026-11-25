@@ -1,147 +1,98 @@
 import { useSyncExternalStore } from 'react';
 import type { Track } from '@/entities/release';
-import { createAudioEngine } from '../lib';
 import { getStreamSource } from '../api';
+import { createAudioEngine } from '../lib';
 
-export type PlaybackStatus = 'idle' | 'loading' | 'playing' | 'paused' | 'error';
-
-export interface PlaybackState {
+interface PlaybackState {
     track: Track | null,
-    status: PlaybackStatus,
+    status: 'idle' | 'loading' | 'playing' | 'paused' | 'error',
 }
 
 const INITIAL_STATE: PlaybackState = { track: null, status: 'idle' };
 
 let state = INITIAL_STATE;
 let queue: Track[] = [];
-let session = 0;
-let retriesLeft = 0;
-
-const MAX_RETRIES = 1;
 
 const listeners = new Set<() => void>();
 
-const setState = (patch: Partial<PlaybackState>) => {
-    state = { ...state, ...patch };
+const setState = (next: PlaybackState) => {
+    state = next;
     listeners.forEach(listener => listener());
 };
 
-const engine = createAudioEngine({
-    onEnded: () => {
-        if (state.track !== null && state.status !== 'loading') {
-            playNext();
-        }
-    },
-    onError: error => handleError(error),
-    onPlayingChange: isPlaying => {
-        if (state.status !== 'playing' && state.status !== 'paused') {
-            return;
-        }
+const subscribe = (listener: () => void) => {
+    listeners.add(listener);
 
-        setState({ status: isPlaying ? 'playing' : 'paused' });
+    return () => {
+        listeners.delete(listener);
+    };
+};
+
+const getSnapshot = () => state;
+
+const fail = (error: unknown) => {
+    console.error('playback failed', error);
+    setState({ ...state, status: 'error' });
+};
+
+const engine = createAudioEngine({
+    onPlaying: () => setState({ ...state, status: 'playing' }),
+    onPause: () => {
+        if (state.status === 'playing') {
+            setState({ ...state, status: 'paused' });
+        }
     },
+    onEnded: () => playNext(),
+    onError: fail,
 });
 
-const start = async (track: Track) => {
-    const current = ++session;
+const play = async (track: Track) => {
+    const isCurrent = track === state.track;
 
-    engine.unlock();
-    setState({ track, status: 'loading' });
+    if (isCurrent && state.status === 'loading') {
+        return;
+    }
 
     try {
+        if (isCurrent && state.status === 'paused') {
+            await engine.resume();
+            return;
+        }
+
+        engine.pause();
+        engine.unlock();
+        setState({ track, status: 'loading' });
+
         const source = await getStreamSource(track);
 
-        if (current !== session) {
-            return;
-        }
-
-        await engine.load(source);
-
-        if (current !== session) {
-            return;
-        }
-
-        await engine.play();
-
-        if (current === session) {
-            setState({ status: 'playing' });
+        if (state.track === track) {
+            await engine.play(source);
         }
     } catch (error) {
-        if (current === session) {
-            handleError(error);
+        if (state.track === track) {
+            fail(error);
         }
     }
 };
 
-const startFresh = (track: Track) => {
-    retriesLeft = MAX_RETRIES;
-    void start(track);
-};
-
-const handleError = (error: unknown) => {
-    if (state.track === null || state.status === 'error') {
-        return;
-    }
-
-    if (retriesLeft > 0) {
-        retriesLeft--;
-        void start(state.track);
-        return;
-    }
-
-    console.error('playback failed', error);
-    session++;
-    engine.pause();
-    setState({ status: 'error' });
-};
+const pause = () => engine.pause();
 
 const playNext = () => {
-    const index = queue.findIndex(track => track.url === state.track?.url);
+    const index = queue.findIndex(track => track === state.track);
     const next = queue[(index + 1) % queue.length];
 
     if (next) {
-        startFresh(next);
+        void play(next);
     }
-};
-
-const toggle = (track: Track) => {
-    if (track.url !== state.track?.url || state.status === 'idle' || state.status === 'error') {
-        startFresh(track);
-        return;
-    }
-
-    if (state.status === 'paused') {
-        retriesLeft = MAX_RETRIES;
-        engine.play().catch(handleError);
-        return;
-    }
-
-    if (state.status === 'loading') {
-        session++;
-        engine.pause();
-        setState({ track: null, status: 'idle' });
-        return;
-    }
-
-    engine.pause();
-    setState({ status: 'paused' });
 };
 
 const setQueue = (tracks: Track[]) => {
     queue = tracks;
 };
 
-export const playback = {
-    subscribe: (listener: () => void) => {
-        listeners.add(listener);
-
-        return () => {
-            listeners.delete(listener);
-        };
-    },
-    getSnapshot: () => state,
+export const usePlayback = () => ({
+    ...useSyncExternalStore(subscribe, getSnapshot),
+    play,
+    pause,
     setQueue,
-    toggle,
-};
-
-export const usePlayback = () => useSyncExternalStore(playback.subscribe, playback.getSnapshot);
+});
